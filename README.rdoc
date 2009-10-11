@@ -1,0 +1,22 @@
+Asset Crate
+
+Inspired by:
+
+* bundle_fu
+* asset_packager
+* bundler
+* sprockets
+* http://carsonified.com/blog/features/webapps/serving-javascript-fast/
+
+# config/css_crates.rb
+
+css_crate "signup" do
+  include "main/home"
+  include "signups/signup"
+  include "signups/birthday"
+  include "signups/step_two"
+  include "signups/new"
+
+  # Also support Dir-style globs:
+  # include "signups/*"
+end
