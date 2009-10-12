@@ -1,20 +1,12 @@
 module AssetCrate
-  class Config
+  module Config
 
-    attr_reader :crates
+    autoload :Crate, "asset_crate/config/crate"
+    autoload :File, "asset_crate/config/file"
 
     def self.from_file(path)
-      source = File.read(path)
-      eval "AssetCrate::Config.new {( " + source + "\n )}"
-    end
-
-    def initialize(&block)
-      instance_eval(&block)
-    end
-
-    def css_create(name)
-      @crates ||= []
-      @crates << name
+      source = ::File.read(path)
+      eval "AssetCrate::Config::File.new {( " + source + "\n )}"
     end
 
   end

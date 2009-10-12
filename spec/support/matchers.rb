@@ -4,8 +4,13 @@ module AssetCrate
 
       def have_crate(name)
         simple_matcher("have crate") do |path|
-          file = path.join("public", "crates", name)
-          File.exist?(file)
+          File.exist?(crates_path.join("**", name).glob.first)
+        end
+      end
+
+      def have_contents(text)
+        simple_matcher("have contents") do |path|
+          File.read(path).include?(text)
         end
       end
 
