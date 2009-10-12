@@ -4,7 +4,7 @@ module AssetCrate
 
       def have_crate(name)
         simple_matcher("have crate") do |path|
-          File.exist?(crates_path.join("**", name).glob.first)
+          File.exist?(crates_path.glob("**", name).first)
         end
       end
 

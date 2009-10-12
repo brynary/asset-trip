@@ -35,9 +35,9 @@ module AssetCrate
       end
 
       def dir
-        # part1 = md5sum[0..1]
-        # part2 = md5sum[2..10]
-        crate_path.join(md5sum)
+        part1 = md5sum[0..1]
+        part2 = md5sum[2..10]
+        crate_path.join(part1, part2)
       end
 
       def md5sum

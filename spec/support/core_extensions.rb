@@ -3,8 +3,8 @@ require "pathname"
 module AssetCrate
   module Spec
     module PathnameExtensions
-      def glob
-        self.class.glob(self)
+      def glob(*args)
+        self.class.glob(self.join(*args))
       end
     end
 

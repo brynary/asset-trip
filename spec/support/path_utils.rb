@@ -29,7 +29,7 @@ module AssetCrate
       end
 
       def crates(name)
-        crates_path.join("**", name).glob
+        crates_path.glob("**", name)
       end
 
       def crates_path

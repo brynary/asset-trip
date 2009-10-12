@@ -59,7 +59,7 @@ describe AssetCrate do
       end
     CRATE
     AssetCrate.package!
-    write_javascript("main.js", "")
+    write_javascript("main.js", "new.main.js.contents")
     AssetCrate.package!
     crates("signup.js").should have(2).items
   end
@@ -70,10 +70,10 @@ describe AssetCrate do
         include "main.js"
       end
     CRATE
+
     AssetCrate.package!
-    write_javascript("main.js", "")
-    AssetCrate.package!
-    crates("signup.js").should have(2).items
+    directory = crates_path.glob("*").map { |f| File.basename(f) }.first
+    directory.size.should == 2
   end
 
   it "generates a manifest for the current version of the assets"
