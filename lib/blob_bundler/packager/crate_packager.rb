@@ -1,6 +1,6 @@
 require "digest"
 
-module AssetCrate
+module BlobBundler
   class Packager
     class CratePackager
       attr_reader :crate, :crate_path, :load_path

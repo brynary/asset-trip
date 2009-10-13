@@ -1,4 +1,4 @@
-module AssetCrate
+module BlobBundler
   module Spec
     module Matchers
 

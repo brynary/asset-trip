@@ -1,6 +1,6 @@
 require "pathname"
 
-module AssetCrate
+module BlobBundler
   module Spec
     module PathnameExtensions
       def glob(*args)

@@ -1,4 +1,4 @@
-module AssetCrate
+module BlobBundler
   module Config
     class ConfigFile
       attr_reader :crates

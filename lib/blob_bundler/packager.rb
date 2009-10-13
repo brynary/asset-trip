@@ -1,6 +1,6 @@
-module AssetCrate
+module BlobBundler
   class Packager
-    autoload :CratePackager, "asset_crate/packager/crate_packager"
+    autoload :CratePackager, "blob_bundler/packager/crate_packager"
 
     def package!
       FileUtils.mkdir_p(crate_path)
@@ -22,7 +22,7 @@ module AssetCrate
     end
 
     def config_path
-      app_path.join("asset_crates.rb")
+      app_path.join("blob_bundles.rb")
     end
 
     def crate_path

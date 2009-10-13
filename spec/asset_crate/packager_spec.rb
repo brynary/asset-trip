@@ -1,6 +1,6 @@
 require "spec_helper"
 
-describe AssetCrate do
+describe BlobBundler do
   it "stores each crate into the crate path" do
     install_js_crates <<-CRATE
       js_crate "signup" do

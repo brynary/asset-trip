@@ -1,10 +1,10 @@
-module AssetCrate
+module BlobBundler
   module Spec
     module Helpers
 
       def install_js_crates(crate_source)
         FileUtils.mkdir_p(fixture_app)
-        File.open(fixture_app("asset_crates.rb"), 'w') do |f|
+        File.open(fixture_app("blob_bundles.rb"), 'w') do |f|
           f.puts crate_source
         end
       end
@@ -17,7 +17,7 @@ module AssetCrate
 
       def package!
         Dir.chdir(fixture_app) do
-          AssetCrate.package!
+          BlobBundler.package!
         end
       end
 
