@@ -46,7 +46,7 @@ module BlobBundler
 
       def paths
         files.map do |f|
-          File.basename(f, ".js") + ".js"
+          load_path.join(File.basename(f, ".js") + ".js")
         end
       end
 
@@ -62,6 +62,10 @@ module BlobBundler
 
       def files
         @files ||= []
+      end
+
+      def load_path
+        BlobBundler.app_root.join("app", "javascripts")
       end
 
     end

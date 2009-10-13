@@ -1,5 +1,6 @@
 module BlobBundler
   class Blob
+    extend Memoizable
 
     def initialize(blob_config)
       @blob_config = blob_config
@@ -15,19 +16,12 @@ module BlobBundler
 
   private
 
-    def load_path
-      BlobBundler.app_root.join("app", "javascripts")
-    end
-
     def contents
-      @contents ||= begin
-        buffer = ""
-        @blob_config.paths.each do |path|
-          buffer << File.read(load_path.join(path))
-        end
-        buffer
-      end
+      @blob_config.paths.map do |path|
+        File.read(path)
+      end.join
     end
+    memoize :contents
 
     def path
       FileUtils.mkdir_p(dir)
