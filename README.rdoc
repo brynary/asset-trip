@@ -1,5 +1,19 @@
 Blob-Bundler
 
+Blob-Bundler bundles JavaScript and CSS files at deploy time into optimized Blobs. The Blobs are then served from a git-esque object store in the application's public directory.
+
+Features and Benefits:
+
+Reliable, efficient cache busting -- even during graceful deploys
+
+Fast at Runtime. No bundling or File mtime checking happens during the request cycle
+
+Solid CSS and JS compression algorithms baked in
+
+Develop in app/, deploy to public/
+
+Simple, all-Ruby configuration file
+
 Inspired by:
 
 * bundle_fu
