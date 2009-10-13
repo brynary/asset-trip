@@ -6,33 +6,42 @@ module BlobBundler
       eval "self.new {( " + source + "\n )}"
     end
 
-    attr_reader :crates
-
     def initialize(&block)
-      @crate_path = nil
+      @blobs = []
+      @blob_path = BlobBundler.app_root.join("public", "blobs")
       instance_eval(&block)
     end
 
-    def crate_path(*args)
+    def bundle!
+      @blobs.each do |blob_config|
+        Blob.new(blob_config).bundle!
+      end
+    end
+
+    def blob_path(*args)
       if args.size == 0
-        return @crate_path
+        return @blob_path
       else
-        @crate_path = Pathname.new(args.first)
+        @blob_path = Pathname.new(args.first)
       end
     end
 
   private
 
-    def js_crate(name, &block)
-      @crates ||= []
-      @crates << Crate.new(name, &block)
+    def js_blob(name, &block)
+      @blobs << BlobConfig.new(self, name, &block)
     end
 
-    class Crate
+    class BlobConfig
 
-      def initialize(name, &block)
+      def initialize(config, name, &block)
+        @config = config
         @name = name
         instance_eval(&block)
+      end
+
+      def blob_path
+        @config.blob_path
       end
 
       def paths

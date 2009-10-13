@@ -1,4 +1,4 @@
-Asset Crate
+Blob-Bundler
 
 Inspired by:
 
@@ -8,9 +8,9 @@ Inspired by:
 * sprockets
 * http://carsonified.com/blog/features/webapps/serving-javascript-fast/
 
-# config/css_crates.rb
+# config/blob_bundles.rb
 
-css_crate "signup" do
+css_blob "signup" do
   include "main/home"
   include "signups/signup"
   include "signups/birthday"

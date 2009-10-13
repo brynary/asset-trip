@@ -1,16 +1,16 @@
 require "spec_helper"
 
 describe BlobBundler::Config do
-  it "supports setting the crate path" do
-    install_js_crates <<-CRATE
-      crate_path File.join(".", "custom_crates_path")
+  it "supports setting the blob path" do
+    install_js_config <<-CONFIG
+      blob_path File.join(".", "custom_blobs_path")
 
-      js_crate "signup" do
+      js_blob "signup" do
       end
-    CRATE
+    CONFIG
 
     bundle!
-    fixture_app.should have_directory("custom_crates_path")
+    fixture_app.should have_directory("custom_blobs_path")
   end
 
   it "supports adding load paths"

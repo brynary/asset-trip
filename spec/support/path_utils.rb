@@ -24,16 +24,16 @@ module BlobBundler
         fixture_app.join("app", "javascripts", *args)
       end
 
-      def crate(name)
-        crates(name).first
+      def blob(name)
+        blobs(name).first
       end
 
-      def crates(name)
-        crates_path.glob("**", name)
+      def blobs(name)
+        blobs_path.glob("**", name)
       end
 
-      def crates_path
-        fixture_app.join("public", "crates")
+      def blobs_path
+        fixture_app.join("public", "blobs")
       end
 
     end

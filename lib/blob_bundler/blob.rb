@@ -1,14 +1,13 @@
 module BlobBundler
   class Blob
-    attr_reader :crate, :crate_path, :load_path
 
-    def initialize(load_path, crate_path, crate)
-      @crate_path = crate_path
-      @crate = crate
-      @load_path = load_path
+    def initialize(blob_config)
+      @blob_config = blob_config
     end
 
     def bundle!
+      FileUtils.mkdir_p(@blob_config.blob_path)
+
       File.open(path, "w") do |file|
         file << contents
       end
@@ -16,10 +15,14 @@ module BlobBundler
 
   private
 
+    def load_path
+      BlobBundler.app_root.join("app", "javascripts")
+    end
+
     def contents
       @contents ||= begin
         buffer = ""
-        crate.paths.each do |path|
+        @blob_config.paths.each do |path|
           buffer << File.read(load_path.join(path))
         end
         buffer
@@ -28,13 +31,13 @@ module BlobBundler
 
     def path
       FileUtils.mkdir_p(dir)
-      dir.join(crate.name)
+      dir.join(@blob_config.name)
     end
 
     def dir
       part1 = md5sum[0..1]
       part2 = md5sum[2..10]
-      crate_path.join(part1, part2)
+      @blob_config.blob_path.join(part1, part2)
     end
 
     def md5sum

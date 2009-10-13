@@ -2,10 +2,10 @@ module BlobBundler
   module Spec
     module Helpers
 
-      def install_js_crates(crate_source)
+      def install_js_config(config_source)
         FileUtils.mkdir_p(fixture_app)
-        File.open(fixture_app("blob_bundles.rb"), 'w') do |f|
-          f.puts crate_source
+        File.open(fixture_app("config", "blob_bundles.rb"), 'w') do |f|
+          f.puts config_source
         end
       end
 

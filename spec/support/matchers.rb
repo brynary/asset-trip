@@ -2,9 +2,9 @@ module BlobBundler
   module Spec
     module Matchers
 
-      def have_crate(name)
-        simple_matcher("have crate") do |path|
-          File.exist?(crates_path.glob("**", name).first)
+      def have_blob(name)
+        simple_matcher("have blob") do |path|
+          File.exist?(blobs_path.glob("**", name).first)
         end
       end
 
