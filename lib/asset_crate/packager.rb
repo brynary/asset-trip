@@ -26,11 +26,11 @@ module AssetCrate
     end
 
     def crate_path
-      app_path.join("public", "crates")
+      config.crate_path || app_path.join("public", "crates")
     end
 
     def app_path
-      Pathname.new(".").join("tmp", "fixture_app")
+      Pathname.new(".").expand_path
     end
 
   end

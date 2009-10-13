@@ -9,6 +9,18 @@ module AssetCrate
         end
       end
 
+      def write_javascript(name, contents)
+        File.open(app_javascript(name), "w") do |f|
+          f.puts contents
+        end
+      end
+
+      def package!
+        Dir.chdir(fixture_app) do
+          AssetCrate.package!
+        end
+      end
+
     end
   end
 end

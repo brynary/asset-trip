@@ -8,6 +8,13 @@ module AssetCrate
         end
       end
 
+      def have_directory(name)
+        simple_matcher("have directory") do |path|
+          matches = path.glob("**", name)
+          matches.any? { |path| File.directory?(path) }
+        end
+      end
+
       def have_contents(text)
         simple_matcher("have contents") do |path|
           File.read(path).include?(text)

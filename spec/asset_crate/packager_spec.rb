@@ -6,7 +6,7 @@ describe AssetCrate do
       js_crate "signup" do
       end
     CRATE
-    AssetCrate.package!
+    package!
     fixture_app.should have_crate("signup.js")
   end
 
@@ -17,7 +17,7 @@ describe AssetCrate do
         include "signup"
       end
     CRATE
-    AssetCrate.package!
+    package!
     crate("signup.js").should have_contents("main.js.contents")
     crate("signup.js").should have_contents("signup.js.contents")
   end
@@ -28,12 +28,9 @@ describe AssetCrate do
         include "main.js"
       end
     CRATE
-    AssetCrate.package!
+    package!
     crate("signup.js").should have_contents("main.js.contents")
   end
-
-  it "stores the crates in the crate path"
-  it "finds assets in the load paths"
 
   it "uses the same path if the crate content is the same" do
     install_js_crates <<-CRATE
@@ -41,15 +38,9 @@ describe AssetCrate do
         include "main.js"
       end
     CRATE
-    AssetCrate.package!
-    AssetCrate.package!
+    package!
+    package!
     crates("signup.js").should have(1).item
-  end
-
-  def write_javascript(name, contents)
-    File.open(app_javascript(name), "w") do |f|
-      f.puts contents
-    end
   end
 
   it "uses a differ path if the crate content is different" do
@@ -58,9 +49,9 @@ describe AssetCrate do
         include "main.js"
       end
     CRATE
-    AssetCrate.package!
+    package!
     write_javascript("main.js", "new.main.js.contents")
-    AssetCrate.package!
+    package!
     crates("signup.js").should have(2).items
   end
 
@@ -71,7 +62,7 @@ describe AssetCrate do
       end
     CRATE
 
-    AssetCrate.package!
+    package!
     directory = crates_path.glob("*").map { |f| File.basename(f) }.first
     directory.size.should == 2
   end

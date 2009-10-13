@@ -9,7 +9,7 @@ module AssetCrate
 
       def paths
         files.map do |f|
-          ::File.basename(f, ".js") + ".js"
+          File.basename(f, ".js") + ".js"
         end
       end
 
