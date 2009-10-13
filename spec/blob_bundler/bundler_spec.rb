@@ -6,7 +6,7 @@ describe BlobBundler do
       js_crate "signup" do
       end
     CRATE
-    package!
+    bundle!
     fixture_app.should have_crate("signup.js")
   end
 
@@ -17,7 +17,7 @@ describe BlobBundler do
         include "signup"
       end
     CRATE
-    package!
+    bundle!
     crate("signup.js").should have_contents("main.js.contents")
     crate("signup.js").should have_contents("signup.js.contents")
   end
@@ -28,7 +28,7 @@ describe BlobBundler do
         include "main.js"
       end
     CRATE
-    package!
+    bundle!
     crate("signup.js").should have_contents("main.js.contents")
   end
 
@@ -38,8 +38,8 @@ describe BlobBundler do
         include "main.js"
       end
     CRATE
-    package!
-    package!
+    bundle!
+    bundle!
     crates("signup.js").should have(1).item
   end
 
@@ -49,9 +49,9 @@ describe BlobBundler do
         include "main.js"
       end
     CRATE
-    package!
+    bundle!
     write_javascript("main.js", "new.main.js.contents")
-    package!
+    bundle!
     crates("signup.js").should have(2).items
   end
 
@@ -62,7 +62,7 @@ describe BlobBundler do
       end
     CRATE
 
-    package!
+    bundle!
     directory = crates_path.glob("*").map { |f| File.basename(f) }.first
     directory.size.should == 2
   end

@@ -1,13 +1,12 @@
 module BlobBundler
-  class Packager
-    autoload :CratePackager, "blob_bundler/packager/crate_packager"
+  class Bundler
 
-    def package!
+    def bundle!
       FileUtils.mkdir_p(crate_path)
 
       config.crates.each do |crate|
-        packager = CratePackager.new(load_path, crate_path, crate)
-        packager.package!
+        packager = Blob.new(load_path, crate_path, crate)
+        packager.bundle!
       end
     end
 

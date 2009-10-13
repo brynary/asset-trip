@@ -15,9 +15,9 @@ module BlobBundler
         end
       end
 
-      def package!
+      def bundle!
         Dir.chdir(fixture_app) do
-          BlobBundler.package!
+          BlobBundler.bundle!
         end
       end
 

@@ -1,8 +1,9 @@
 module BlobBundler
+  autoload :Bundler, "blob_bundler/bundler"
+  autoload :Blob, "blob_bundler/blob"
   autoload :Config, "blob_bundler/config"
-  autoload :Packager, "blob_bundler/packager"
 
-  def self.package!
-    Packager.new.package!
+  def self.bundle!
+    Bundler.new.bundle!
   end
 end

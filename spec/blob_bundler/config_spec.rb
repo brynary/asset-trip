@@ -9,7 +9,7 @@ describe BlobBundler::Config do
       end
     CRATE
 
-    package!
+    bundle!
     fixture_app.should have_directory("custom_crates_path")
   end
 
