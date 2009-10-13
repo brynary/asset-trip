@@ -15,6 +15,12 @@ module BlobBundler
         end
       end
 
+      def write_stylesheet(name, contents)
+        File.open(app_stylesheet(name), "w") do |f|
+          f.puts contents
+        end
+      end
+
       def bundle!
         Dir.chdir(fixture_app) do
           BlobBundler.bundle!

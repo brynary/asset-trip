@@ -1,1 +1,1 @@
-main.js.contents
+alert("main");

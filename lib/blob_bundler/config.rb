@@ -37,14 +37,19 @@ module BlobBundler
     end
 
     def js_blob(name, &block)
-      @blob_configs << BlobConfig.new(self, name, &block)
+      @blob_configs << BlobConfig.new(self, name, "js", &block)
+    end
+
+    def css_blob(name, &block)
+      @blob_configs << BlobConfig.new(self, name, "css", &block)
     end
 
     class BlobConfig
 
-      def initialize(config, name, &block)
+      def initialize(config, name, type, &block)
         @config = config
         @name = name
+        @type = type
         instance_eval(&block)
       end
 
@@ -54,15 +59,19 @@ module BlobBundler
 
       def paths
         files.map do |f|
-          load_path.join(File.basename(f, ".js") + ".js")
+          load_path.join(File.basename(f, extension) + extension)
         end
       end
 
       def name
-        "#{@name}.js"
+        "#{@name}.#{@type}"
       end
 
     private
+
+      def extension
+        ".#{@type}"
+      end
 
       def include(name)
         files << name
@@ -73,7 +82,11 @@ module BlobBundler
       end
 
       def load_path
-        BlobBundler.app_root.join("app", "javascripts")
+        if @type == "js"
+          BlobBundler.app_root.join("app", "javascripts")
+        else
+          BlobBundler.app_root.join("app", "stylesheets")
+        end
       end
 
     end

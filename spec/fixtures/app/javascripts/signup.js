@@ -1,1 +1,1 @@
-signup.js.contents
+alert("signup");

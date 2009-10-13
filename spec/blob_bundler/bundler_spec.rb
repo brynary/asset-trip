@@ -1,7 +1,7 @@
 require "spec_helper"
 
-describe BlobBundler do
-  it "stores each blob into the blob path" do
+describe BlobBundler, "#bundle!" do
+  it "stores each Blob into the public directory" do
     install_js_config <<-CONFIG
       js_blob "signup" do
       end
@@ -10,7 +10,7 @@ describe BlobBundler do
     fixture_app.should have_blob("signup.js")
   end
 
-  it "concatenates the included files" do
+  it "concatenates the files into a Blob" do
     install_js_config <<-CONFIG
       js_blob "signup" do
         include "main"
@@ -18,21 +18,11 @@ describe BlobBundler do
       end
     CONFIG
     bundle!
-    blob("signup.js").should have_contents("main.js.contents")
-    blob("signup.js").should have_contents("signup.js.contents")
+    blob("signup.js").should have_contents('alert("main")')
+    blob("signup.js").should have_contents('alert("signup")')
   end
 
-  it "works with the file extensions included" do
-    install_js_config <<-CONFIG
-      js_blob "signup" do
-        include "main.js"
-      end
-    CONFIG
-    bundle!
-    blob("signup.js").should have_contents("main.js.contents")
-  end
-
-  it "uses the same path if the blob content is the same" do
+  it "uses the same path if the Blob content is the same" do
     install_js_config <<-CONFIG
       js_blob "signup" do
         include "main.js"
@@ -43,19 +33,19 @@ describe BlobBundler do
     blobs("signup.js").should have(1).item
   end
 
-  it "uses a differ path if the blob content is different" do
+  it "uses a different path if the Blob content is different" do
     install_js_config <<-CONFIG
       js_blob "signup" do
         include "main.js"
       end
     CONFIG
     bundle!
-    write_javascript("main.js", "new.main.js.contents")
+    write_javascript("main.js", 'alert("new.main");')
     bundle!
     blobs("signup.js").should have(2).items
   end
 
-  it "never creates more than 256 directories in the blobs path" do
+  it "generates paths in the form of blobs/XX/YYYYYYYY/filename.js" do
     install_js_config <<-CONFIG
       js_blob "signup" do
         include "main.js"
@@ -67,7 +57,7 @@ describe BlobBundler do
     directory.size.should == 2
   end
 
-  it "generates a manifest for the current version of the assets" do
+  it "generates a manifest for use at runtime" do
     install_js_config <<-CONFIG
       js_blob "signup" do
         include "main.js"
@@ -78,18 +68,8 @@ describe BlobBundler do
     File.read(fixture_app.join("config", "blob_manifest.rb")).should be_like(<<-RUBY)
       module BlobBundler
         @manifest = {}
-        @manifest["signup.js"] = "54f08f8cef336c02e2fb96b399ffc81f"
+        @manifest["signup.js"] = "7d6db1efb9e6b58620939540ae067c7b"
       end
     RUBY
-  end
-
-  describe "for javascript" do
-    it "minifies the code"
-  end
-
-  describe "for stylesheets" do
-    it "strips comments"
-    it "collapses spaces"
-    it "adds asset host subdomains to background images"
   end
 end

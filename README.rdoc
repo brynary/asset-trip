@@ -21,6 +21,7 @@ Inspired by:
 * bundler
 * sprockets
 * http://carsonified.com/blog/features/webapps/serving-javascript-fast/
+* git
 
 # config/blob_bundles.rb
 

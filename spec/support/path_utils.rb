@@ -24,6 +24,10 @@ module BlobBundler
         fixture_app.join("app", "javascripts", *args)
       end
 
+      def app_stylesheet(*args)
+        fixture_app.join("app", "stylesheets", *args)
+      end
+
       def blob(name)
         blobs(name).first
       end

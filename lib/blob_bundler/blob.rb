@@ -26,7 +26,7 @@ module BlobBundler
 
     def contents
       @blob_config.paths.map do |path|
-        File.read(path)
+        Compressor.new(path).compress!
       end.join
     end
     memoize :contents
