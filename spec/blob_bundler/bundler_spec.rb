@@ -61,13 +61,27 @@ describe BlobBundler do
         include "main.js"
       end
     CONFIG
-
     bundle!
+
     directory = blobs_path.glob("*").map { |f| File.basename(f) }.first
     directory.size.should == 2
   end
 
-  it "generates a manifest for the current version of the assets"
+  it "generates a manifest for the current version of the assets" do
+    install_js_config <<-CONFIG
+      js_blob "signup" do
+        include "main.js"
+      end
+    CONFIG
+    bundle!
+
+    File.read(fixture_app.join("config", "blob_manifest.rb")).should be_like(<<-RUBY)
+      module BlobBundler
+        @manifest = {}
+        @manifest["signup.js"] = "54f08f8cef336c02e2fb96b399ffc81f"
+      end
+    RUBY
+  end
 
   describe "for javascript" do
     it "minifies the code"

@@ -1,6 +1,7 @@
 module BlobBundler
   autoload :Blob, "blob_bundler/blob"
   autoload :Config, "blob_bundler/config"
+  autoload :Manifest, "blob_bundler/manifest"
   autoload :Memoizable, "blob_bundler/memoizable"
 
   def self.bundle!

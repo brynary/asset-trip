@@ -14,6 +14,14 @@ module BlobBundler
       end
     end
 
+    def name
+      @blob_config.name
+    end
+
+    def md5sum
+      @md5sum ||= Digest::MD5.hexdigest(contents)
+    end
+
   private
 
     def contents
@@ -32,10 +40,6 @@ module BlobBundler
       part1 = md5sum[0..1]
       part2 = md5sum[2..10]
       @blob_config.blob_path.join(part1, part2)
-    end
-
-    def md5sum
-      @md5sum ||= Digest::MD5.hexdigest(contents)
     end
 
   end

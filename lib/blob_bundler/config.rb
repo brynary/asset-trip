@@ -7,15 +7,17 @@ module BlobBundler
     end
 
     def initialize(&block)
-      @blobs = []
+      @blob_configs = []
       @blob_path = BlobBundler.app_root.join("public", "blobs")
       instance_eval(&block)
     end
 
     def bundle!
-      @blobs.each do |blob_config|
-        Blob.new(blob_config).bundle!
+      blobs.each do |blob|
+        blob.bundle!
       end
+
+      Manifest.new(blobs).write!
     end
 
     def blob_path(*args)
@@ -28,8 +30,14 @@ module BlobBundler
 
   private
 
+    def blobs
+      @blob_configs.map do |blob_config|
+        Blob.new(blob_config)
+      end
+    end
+
     def js_blob(name, &block)
-      @blobs << BlobConfig.new(self, name, &block)
+      @blob_configs << BlobConfig.new(self, name, &block)
     end
 
     class BlobConfig
