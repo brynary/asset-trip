@@ -4,7 +4,7 @@ module AssetTrip
 
       def install_js_config(config_source)
         FileUtils.mkdir_p(fixture_app)
-        File.open(fixture_app("config", "asset_trip", "javascript_blobs.rb"), 'w') do |f|
+        File.open(fixture_app("config", "asset_trip", "javascripts.rb"), 'w') do |f|
           f.puts config_source
         end
       end

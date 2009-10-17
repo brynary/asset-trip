@@ -39,4 +39,17 @@ describe AssetTrip::Compressor do
     blob("signup.css").should_not have_contents('Comment')
     blob("signup.css").should have_contents('.foo{font-weight:bold;}')
   end
+
+  it "raises a CompressorError if compression fails" do
+    install_js_config <<-CONFIG
+      js_blob "signup" do
+        include "main"
+      end
+    CONFIG
+    write_javascript("main.js", "!@$%&*")
+
+    lambda {
+      bundle!
+    }.should raise_error(AssetTrip::CompressorError)
+  end
 end

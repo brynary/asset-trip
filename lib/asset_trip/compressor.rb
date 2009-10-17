@@ -1,4 +1,7 @@
+require "systemu"
+
 module AssetTrip
+
   class Compressor
 
     def initialize(path)
@@ -6,7 +9,9 @@ module AssetTrip
     end
 
     def compress!
-      `java -jar #{jar_path} #{@path}`
+      status, stdout, stderr = systemu("java -jar #{jar_path} #{@path}")
+      raise CompressorError.new(stderr) unless status.success?
+      return stdout
     end
 
     def jar_path
