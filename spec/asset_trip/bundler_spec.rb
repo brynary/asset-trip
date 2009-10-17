@@ -1,6 +1,6 @@
 require "spec_helper"
 
-describe BlobBundler, "#bundle!" do
+describe AssetTrip, "#bundle!" do
   it "stores each Blob into the public directory" do
     install_js_config <<-CONFIG
       js_blob "signup" do
@@ -65,8 +65,8 @@ describe BlobBundler, "#bundle!" do
     CONFIG
     bundle!
 
-    File.read(fixture_app.join("config", "blob_manifest.rb")).should be_like(<<-RUBY)
-      module BlobBundler
+    File.read(fixture_app.join("config", "asset_trip", "manifest.rb")).should be_like(<<-RUBY)
+      module AssetTrip
         @manifest = {}
         @manifest["signup.js"] = "7d6db1efb9e6b58620939540ae067c7b"
       end

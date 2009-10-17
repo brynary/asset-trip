@@ -1,4 +1,4 @@
-module BlobBundler
+module AssetTrip
   class Compressor
 
     def initialize(path)
@@ -10,7 +10,7 @@ module BlobBundler
     end
 
     def jar_path
-      BlobBundler.root.join("vendor", "yuicompressor-2.4.2.jar")
+      AssetTrip.root.join("vendor", "yuicompressor-2.4.2.jar")
     end
 
   end

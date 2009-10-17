@@ -1,4 +1,4 @@
-module BlobBundler
+module AssetTrip
   class Manifest
 
     def initialize(blobs)
@@ -7,7 +7,7 @@ module BlobBundler
 
     def write!
       File.open(path, "w") do |file|
-        file.puts "module BlobBundler"
+        file.puts "module AssetTrip"
         file.puts "  @manifest = {}"
 
         @blobs.each do |blob|
@@ -21,7 +21,7 @@ module BlobBundler
   private
 
     def path
-      BlobBundler.app_root.join("config", "blob_manifest.rb")
+      AssetTrip.app_root.join("config", "asset_trip", "manifest.rb")
     end
 
   end

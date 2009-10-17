@@ -1,10 +1,10 @@
-module BlobBundler
+module AssetTrip
   module Spec
     module Helpers
 
       def install_js_config(config_source)
         FileUtils.mkdir_p(fixture_app)
-        File.open(fixture_app("config", "blob_bundles.rb"), 'w') do |f|
+        File.open(fixture_app("config", "asset_trip", "javascript_blobs.rb"), 'w') do |f|
           f.puts config_source
         end
       end
@@ -23,7 +23,7 @@ module BlobBundler
 
       def bundle!
         Dir.chdir(fixture_app) do
-          BlobBundler.bundle!
+          AssetTrip.bundle!
         end
       end
 

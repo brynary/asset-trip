@@ -1,4 +1,4 @@
-module BlobBundler
+module AssetTrip
   class Blob
     extend Memoizable
 

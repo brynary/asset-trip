@@ -21,6 +21,7 @@ Inspired by:
 * bundler
 * sprockets
 * http://carsonified.com/blog/features/webapps/serving-javascript-fast/
+* asset-hosting-with-minimum-ssl
 * git
 
 # config/blob_bundles.rb

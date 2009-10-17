@@ -1,4 +1,4 @@
-module BlobBundler
+module AssetTrip
   module Spec
     module PathUtils
 

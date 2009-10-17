@@ -1,4 +1,4 @@
-module BlobBundler
+module AssetTrip
   module Memoizable
 
     def self.memoized_ivar_for(symbol)
@@ -7,7 +7,7 @@ module BlobBundler
 
     def memoize(symbol)
       original_method = :"_unmemoized_#{symbol}"
-      memoized_ivar = BlobBundler::Memoizable.memoized_ivar_for(symbol)
+      memoized_ivar = AssetTrip::Memoizable.memoized_ivar_for(symbol)
 
       raise "Already memoized #{symbol}" if method_defined?(original_method)
       alias_method original_method, symbol

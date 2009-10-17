@@ -1,6 +1,6 @@
 require "spec_helper"
 
-describe BlobBundler::Compressor do
+describe AssetTrip::Compressor do
   it "minifies JavaScript using the YUI Compressor" do
     install_js_config <<-CONFIG
       js_blob "signup" do

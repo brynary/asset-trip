@@ -1,0 +1,1 @@
+require Rails.root.join("config", "asset_trip", "manifest")

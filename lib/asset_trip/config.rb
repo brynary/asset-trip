@@ -1,4 +1,4 @@
-module BlobBundler
+module AssetTrip
   class Config
 
     def self.from_file(path)
@@ -8,7 +8,7 @@ module BlobBundler
 
     def initialize(&block)
       @blob_configs = []
-      @blob_path = BlobBundler.app_root.join("public", "blobs")
+      @blob_path = AssetTrip.app_root.join("public", "blobs")
       instance_eval(&block)
     end
 
@@ -83,9 +83,9 @@ module BlobBundler
 
       def load_path
         if @type == "js"
-          BlobBundler.app_root.join("app", "javascripts")
+          AssetTrip.app_root.join("app", "javascripts")
         else
-          BlobBundler.app_root.join("app", "stylesheets")
+          AssetTrip.app_root.join("app", "stylesheets")
         end
       end
 
