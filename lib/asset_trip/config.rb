@@ -59,7 +59,8 @@ module AssetTrip
 
       def paths
         files.map do |f|
-          load_path.join(File.basename(f, extension) + extension)
+          f += extension unless f.ends_with?(extension)
+          load_path.join(f)
         end
       end
 

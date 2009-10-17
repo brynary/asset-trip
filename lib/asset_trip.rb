@@ -1,3 +1,5 @@
+require "active_support"
+
 module AssetTrip
   autoload :Blob, "asset_trip/blob"
   autoload :Compressor, "asset_trip/compressor"

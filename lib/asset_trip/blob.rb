@@ -1,3 +1,5 @@
+require "digest"
+
 module AssetTrip
   class Blob
     extend Memoizable
@@ -7,7 +9,7 @@ module AssetTrip
     end
 
     def bundle!
-      FileUtils.mkdir_p(@blob_config.blob_path)
+      FileUtils.mkdir_p(File.dirname(path))
 
       File.open(path, "w") do |file|
         file << contents
@@ -32,7 +34,6 @@ module AssetTrip
     memoize :contents
 
     def path
-      FileUtils.mkdir_p(dir)
       dir.join(@blob_config.name)
     end
 
