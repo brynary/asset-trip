@@ -1,8 +1,10 @@
 module AssetTrip
   class Config
 
-    def self.from_file(path)
-      source = File.read(path)
+    def self.from_file(dir)
+      paths = Dir[dir.join("*.rb")]
+      paths.reject! { |path| File.basename(path) == "manifest.rb" }
+      source = paths.map { |path| File.read(path) }.join("\n\n")
       eval "self.new {( " + source + "\n )}"
     end
 

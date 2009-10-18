@@ -30,7 +30,7 @@ module AssetTrip
   end
 
   def self.config_path
-    app_root.join("config", "asset_trip", "javascripts.rb")
+    app_root.join("config", "asset_trip")
   end
 
 end
