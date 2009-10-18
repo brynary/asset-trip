@@ -28,7 +28,9 @@ module AssetTrip
 
     def contents
       @blob_config.paths.map do |path|
-        Compressor.new(path).compress!
+        contents = File.read(path)
+        contents = UrlRewriter.new(path).rewrite(contents)
+        contents = Compressor.new(path).compress(contents)
       end.join
     end
     memoize :contents

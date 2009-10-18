@@ -1,7 +1,7 @@
 module AssetTrip
   module Spec
     module Matchers
-      
+
       class BeLike
         def initialize(expected)
           @expected = expected
@@ -38,10 +38,28 @@ module AssetTrip
         end
       end
 
-      def have_contents(text)
-        simple_matcher("have contents") do |path|
-          File.read(path).include?(text)
+      class HaveContents
+        def initialize(text)
+          @text = text
         end
+
+        def matches?(path)
+          @path = path
+          @actual = File.read(path)
+          @actual.include?(@text)
+        end
+
+        def failure_message
+          "expected #{@path}\n#{@actual}\nto include\n#{@text}"
+        end
+
+        def negative_failure_message
+          "expected #{@path}\n#{@actual}\nto not include\n#{@text}"
+        end
+      end
+
+      def have_contents(text)
+        HaveContents.new(text)
       end
 
     end
