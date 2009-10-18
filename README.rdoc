@@ -26,7 +26,7 @@ Inspired by:
 
 # config/blob_bundles.rb
 
-css_blob "signup" do
+css_asset "signup" do
   include "main/home"
   include "signups/signup"
   include "signups/birthday"

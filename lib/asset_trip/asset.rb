@@ -1,11 +1,11 @@
 require "digest"
 
 module AssetTrip
-  class Blob
+  class Asset
     extend Memoizable
 
-    def initialize(blob_config)
-      @blob_config = blob_config
+    def initialize(asset_config)
+      @asset_config = asset_config
     end
 
     def bundle!
@@ -17,7 +17,7 @@ module AssetTrip
     end
 
     def name
-      @blob_config.name
+      @asset_config.name
     end
 
     def md5sum
@@ -27,7 +27,7 @@ module AssetTrip
   private
 
     def contents
-      @blob_config.paths.map do |path|
+      @asset_config.paths.map do |path|
         contents = File.read(path)
         contents = UrlRewriter.new.rewrite(contents)
         contents = Compressor.new(path).compress(contents)
@@ -36,13 +36,13 @@ module AssetTrip
     memoize :contents
 
     def path
-      dir.join(@blob_config.name)
+      dir.join(@asset_config.name)
     end
 
     def dir
       part1 = md5sum[0..1]
       part2 = md5sum[2..10]
-      @blob_config.blob_path.join(part1, part2)
+      @asset_config.assets_path.join(part1, part2)
     end
 
   end

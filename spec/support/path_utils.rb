@@ -28,16 +28,16 @@ module AssetTrip
         fixture_app.join("app", "stylesheets", *args)
       end
 
-      def blob(name)
-        blobs(name).first
+      def asset(name)
+        assets(name).first
       end
 
-      def blobs(name)
-        blobs_path.glob("**", name)
+      def assets(name)
+        assets_path.glob("**", name)
       end
 
-      def blobs_path
-        fixture_app.join("public", "blobs")
+      def assets_path
+        fixture_app.join("public", "assets")
       end
 
     end

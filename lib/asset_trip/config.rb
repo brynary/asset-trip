@@ -6,47 +6,47 @@ module AssetTrip
       eval "self.new {( " + source + "\n )}"
     end
 
-    attr_reader :blob_configs
+    attr_reader :asset_configs
 
     def initialize(&block)
-      @blob_configs = []
-      @blob_path = AssetTrip.app_root.join("public", "blobs")
+      @asset_configs = []
+      @assets_path = AssetTrip.app_root.join("public", "assets")
       instance_eval(&block)
     end
 
     def bundle!
-      blobs.each do |blob|
-        blob.bundle!
+      assets.each do |asset|
+        asset.bundle!
       end
 
-      Manifest.new(blobs).write!
+      Manifest.new(assets).write!
     end
 
-    def blob_path(*args)
+    def assets_path(*args)
       if args.size == 0
-        return @blob_path
+        return @assets_path
       else
-        @blob_path = Pathname.new(args.first)
+        @assets_path = Pathname.new(args.first)
       end
     end
 
   private
 
-    def blobs
-      @blob_configs.map do |blob_config|
-        Blob.new(blob_config)
+    def assets
+      @asset_configs.map do |asset_config|
+        Asset.new(asset_config)
       end
     end
 
-    def js_blob(name, &block)
-      @blob_configs << BlobConfig.new(self, name, "js", &block)
+    def js_asset(name, &block)
+      @asset_configs << AssetConfig.new(self, name, "js", &block)
     end
 
-    def css_blob(name, &block)
-      @blob_configs << BlobConfig.new(self, name, "css", &block)
+    def css_asset(name, &block)
+      @asset_configs << AssetConfig.new(self, name, "css", &block)
     end
 
-    class BlobConfig
+    class AssetConfig
 
       def initialize(config, name, type, &block)
         @config = config
@@ -55,8 +55,8 @@ module AssetTrip
         instance_eval(&block)
       end
 
-      def blob_path
-        @config.blob_path
+      def assets_path
+        @config.assets_path
       end
 
       def paths

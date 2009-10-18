@@ -1,65 +1,65 @@
 require "spec_helper"
 
 describe AssetTrip do
-  it "stores each Blob into the public directory" do
+  it "stores each Asset into the public directory" do
     install_js_config <<-CONFIG
-      js_blob "signup" do
+      js_asset "signup" do
       end
     CONFIG
     bundle!
-    fixture_app.should have_blob("signup.js")
+    fixture_app.should have_asset("signup.js")
   end
 
-  it "concatenates the files into a Blob" do
+  it "concatenates the files into an Asset" do
     install_js_config <<-CONFIG
-      js_blob "signup" do
+      js_asset "signup" do
         include "main"
         include "signup"
       end
     CONFIG
     bundle!
-    blob("signup.js").should have_contents('alert("main")')
-    blob("signup.js").should have_contents('alert("signup")')
+    asset("signup.js").should have_contents('alert("main")')
+    asset("signup.js").should have_contents('alert("signup")')
   end
 
-  it "uses the same path if the Blob content is the same" do
+  it "uses the same path if the Asset content is the same" do
     install_js_config <<-CONFIG
-      js_blob "signup" do
+      js_asset "signup" do
         include "main.js"
       end
     CONFIG
     bundle!
     bundle!
-    blobs("signup.js").should have(1).item
+    assets("signup.js").should have(1).item
   end
 
-  it "uses a different path if the Blob content is different" do
+  it "uses a different path if the Asset content is different" do
     install_js_config <<-CONFIG
-      js_blob "signup" do
+      js_asset "signup" do
         include "main.js"
       end
     CONFIG
     bundle!
     write_javascript("main.js", 'alert("new.main");')
     bundle!
-    blobs("signup.js").should have(2).items
+    assets("signup.js").should have(2).items
   end
 
-  it "generates paths in the form of blobs/XX/YYYYYYYY/filename.js" do
+  it "generates paths in the form of assets/XX/YYYYYYYY/filename.js" do
     install_js_config <<-CONFIG
-      js_blob "signup" do
+      js_asset "signup" do
         include "main.js"
       end
     CONFIG
     bundle!
 
-    directory = blobs_path.glob("*").map { |f| File.basename(f) }.first
+    directory = assets_path.glob("*").map { |f| File.basename(f) }.first
     directory.size.should == 2
   end
 
   it "generates a manifest for use at runtime" do
     install_js_config <<-CONFIG
-      js_blob "signup" do
+      js_asset "signup" do
         include "main.js"
       end
     CONFIG
@@ -75,7 +75,7 @@ describe AssetTrip do
 
   it "minifies JavaScript using the YUI Compressor" do
     install_js_config <<-CONFIG
-      js_blob "signup" do
+      js_asset "signup" do
         include "main"
       end
     CONFIG
@@ -89,13 +89,13 @@ describe AssetTrip do
     JAVASCRIPT
     bundle!
 
-    blob("signup.js").should_not have_contents('Comment')
-    blob("signup.js").should have_contents('return a+1')
+    asset("signup.js").should_not have_contents('Comment')
+    asset("signup.js").should have_contents('return a+1')
   end
 
   it "minifies CSS using the YUI Compressor" do
     install_js_config <<-CONFIG
-      css_blob "signup" do
+      css_asset "signup" do
         include "new"
       end
     CONFIG
@@ -108,13 +108,13 @@ describe AssetTrip do
     STYLESHEET
     bundle!
 
-    blob("signup.css").should_not have_contents('Comment')
-    blob("signup.css").should have_contents('.foo{font-weight:bold;}')
+    asset("signup.css").should_not have_contents('Comment')
+    asset("signup.css").should have_contents('.foo{font-weight:bold;}')
   end
 
   it "raises a CompressorError if compression fails" do
     install_js_config <<-CONFIG
-      js_blob "signup" do
+      js_asset "signup" do
         include "main"
       end
     CONFIG
@@ -130,7 +130,7 @@ describe AssetTrip do
     ActionController::Base.stub!(:asset_host => "http://cdn%d.example.com")
 
     install_js_config <<-CONFIG
-      css_blob "signup" do
+      css_asset "signup" do
         include "new"
       end
     CONFIG
@@ -140,6 +140,6 @@ describe AssetTrip do
     STYLESHEET
     bundle!
 
-    blob("signup.css").should have_contents('url(http://cdn1.example.com/foo.jpg)')
+    asset("signup.css").should have_contents('url(http://cdn1.example.com/foo.jpg)')
   end
 end

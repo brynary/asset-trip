@@ -1,7 +1,7 @@
 require "active_support"
 
 module AssetTrip
-  autoload :Blob, "asset_trip/blob"
+  autoload :Asset, "asset_trip/asset"
   autoload :Compressor, "asset_trip/compressor"
   autoload :Config, "asset_trip/config"
   autoload :Helper, "asset_trip/helper"

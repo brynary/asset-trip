@@ -1,22 +1,22 @@
 module AssetTrip
-  class UnknownBlobError < StandardError
+  class UnknownAssetError < StandardError
   end
 
   module Helper
 
-    def javascript_include_blob(*sources)
+    def javascript_include_asset(*sources)
       sources.map! { |source| _asset_trip_url(source, ".js") }
       sources.collect { |source| javascript_include_tag(source) }.join("\n")
     end
 
-    def stylesheet_link_blob(*sources)
+    def stylesheet_link_asset(*sources)
       options = sources.extract_options!
       sources.map! { |source| _asset_trip_url(source, ".css") }
       sources.collect { |source| stylesheet_link_tag(source, options) }.join("\n")
     end
 
     def rewrite_asset_path(source)
-      if source =~ /blobs/
+      if source =~ /assets/
         source
       else
         super
@@ -27,12 +27,12 @@ module AssetTrip
       key = File.basename(source.to_s, extension) + extension
       md5sum = AssetTrip.manifest[key]
 
-      raise UnknownBlobError.new("Can't find #{key} in the manifest") unless md5sum
+      raise UnknownAssetError.new("Can't find #{key} in the manifest") unless md5sum
 
       part1 = md5sum[0..1]
       part2 = md5sum[2..10]
 
-      "/" + File.join("blobs", part1, part2, key)
+      "/" + File.join("assets", part1, part2, key)
     end
 
   end

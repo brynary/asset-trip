@@ -1,8 +1,8 @@
 module AssetTrip
   class Manifest
 
-    def initialize(blobs)
-      @blobs = blobs
+    def initialize(assets)
+      @assets = assets
     end
 
     def write!
@@ -10,8 +10,8 @@ module AssetTrip
         file.puts "module AssetTrip"
         file.puts "  @manifest = {}"
 
-        @blobs.each do |blob|
-          file.puts "  @manifest[#{blob.name.inspect}] = #{blob.md5sum.inspect}"
+        @assets.each do |asset|
+          file.puts "  @manifest[#{asset.name.inspect}] = #{asset.md5sum.inspect}"
         end
 
         file.puts "end"

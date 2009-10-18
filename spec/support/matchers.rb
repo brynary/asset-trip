@@ -25,9 +25,9 @@ module AssetTrip
         BeLike.new(expected)
       end
 
-      def have_blob(name)
-        simple_matcher("have blob") do |path|
-          File.exist?(blobs_path.glob("**", name).first)
+      def have_asset(name)
+        simple_matcher("have asset") do |path|
+          File.exist?(assets_path.glob("**", name).first)
         end
       end
 
