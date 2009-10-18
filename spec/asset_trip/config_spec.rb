@@ -42,4 +42,7 @@ describe AssetTrip::Config do
   end
 
   it "supports adding to the load paths"
+  it "supports setting command line flags for YUI compressor"
+  it "supports disabling YUI compressor globally"
+  it "supports disabling YUI compressor for an asset"
 end
