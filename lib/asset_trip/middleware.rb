@@ -19,13 +19,9 @@ module AssetTrip
         return forbidden if @path_info.include?("..")
         @path = File.join(@root, @path_info[URL_PREFIX.size..-1])
 
-        begin
-          if File.file?(@path) && File.readable?(@path)
-            serving
-          else
-            raise Errno::EPERM
-          end
-        rescue SystemCallError
+        if File.file?(@path) && File.readable?(@path)
+          serving
+        else
           not_found
         end
       else
