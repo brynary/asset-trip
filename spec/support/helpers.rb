@@ -22,9 +22,7 @@ module AssetTrip
       end
 
       def bundle!
-        Dir.chdir(fixture_app) do
-          AssetTrip.bundle!
-        end
+        AssetTrip.bundle!
       end
 
     end
