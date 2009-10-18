@@ -29,7 +29,7 @@ module AssetTrip
     def contents
       @blob_config.paths.map do |path|
         contents = File.read(path)
-        contents = UrlRewriter.new(path).rewrite(contents)
+        contents = UrlRewriter.new.rewrite(contents)
         contents = Compressor.new(path).compress(contents)
       end.join
     end

@@ -1,10 +1,6 @@
 module AssetTrip
   class UrlRewriter
 
-    def initialize(path)
-      @path = path
-    end
-
     def rewrite(contents)
       contents.gsub!(/url *\(([^\)]+)\)/) { "url(#{add_asset_host_to_path($1)})" }
       contents

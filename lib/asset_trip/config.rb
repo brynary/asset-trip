@@ -6,6 +6,8 @@ module AssetTrip
       eval "self.new {( " + source + "\n )}"
     end
 
+    attr_reader :blob_configs
+
     def initialize(&block)
       @blob_configs = []
       @blob_path = AssetTrip.app_root.join("public", "blobs")

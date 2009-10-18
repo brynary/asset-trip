@@ -1,46 +1,53 @@
 require "spec_helper"
 
 describe AssetTrip::Config do
+  before do
+    @old_pwd = Dir.pwd
+    Dir.chdir(fixture_app)
+  end
+
+  after do
+    Dir.chdir(@old_pwd)
+  end
+
   it "can bundle files included with the file extension" do
-    install_js_config <<-CONFIG
+    config = AssetTrip::Config.new do
       js_blob "signup" do
         include "main.js"
       end
-    CONFIG
-    bundle!
-    blob("signup.js").should have_contents('alert("main")')
+    end
+
+    blob_config = config.blob_configs.first
+    blob_config.paths.should == [app_javascript("main.js")]
   end
 
   it "can bundle files in subdirectories of the load path" do
-    install_js_config <<-CONFIG
+    config = AssetTrip::Config.new do
       js_blob "signup" do
         include "main/new"
       end
-    CONFIG
-    bundle!
-    blob("signup.js").should have_contents('alert("main/new")')
+    end
+
+    blob_config = config.blob_configs.first
+    blob_config.paths.should == [app_javascript("main", "new.js")]
   end
 
   it "supports setting the blob path" do
-    install_js_config <<-CONFIG
+    config = AssetTrip::Config.new do
       blob_path File.join(".", "custom_blobs_path")
-
-      js_blob "signup" do
-      end
-    CONFIG
-
-    bundle!
-    fixture_app.should have_directory("custom_blobs_path")
+    end
+    config.blob_path.should == Pathname.new("./custom_blobs_path")
   end
 
   it "supports writing a blob to a subdirectory" do
-    install_js_config <<-CONFIG
+    config = AssetTrip::Config.new do
       js_blob "signup/foo" do
         include "main.js"
       end
-    CONFIG
-    bundle!
-    blob("foo.js").should have_contents('alert("main")')
+    end
+
+    blob_config = config.blob_configs.first
+    blob_config.name.should == "signup/foo.js"
   end
 
   it "supports adding to the load paths"
