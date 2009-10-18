@@ -5,6 +5,7 @@ module AssetTrip
   autoload :Compressor, "asset_trip/compressor"
   autoload :Config, "asset_trip/config"
   autoload :Helper, "asset_trip/helper"
+  autoload :LoadPath, "asset_trip/load_path"
   autoload :Manifest, "asset_trip/manifest"
   autoload :Middleware, "asset_trip/middleware"
   autoload :Memoizable, "asset_trip/memoizable"

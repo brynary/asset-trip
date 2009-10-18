@@ -9,8 +9,16 @@ module AssetTrip
     end
 
     attr_reader :asset_configs
+    attr_reader :js_load_path
+    attr_reader :css_load_path
 
     def initialize(&block)
+      @js_load_path = LoadPath.new
+      @js_load_path << "app/javascripts"
+
+      @css_load_path = LoadPath.new
+      @css_load_path << "app/stylesheets"
+
       @asset_configs = []
       @assets_path = AssetTrip.app_root.join("public", "assets")
       instance_eval(&block)
@@ -64,7 +72,7 @@ module AssetTrip
       def paths
         files.map do |f|
           f += extension unless f.ends_with?(extension)
-          load_path.join(f)
+          load_path.resolve(f)
         end
       end
 
@@ -88,9 +96,9 @@ module AssetTrip
 
       def load_path
         if @type == "js"
-          AssetTrip.app_root.join("app", "javascripts")
+          @config.js_load_path
         else
-          AssetTrip.app_root.join("app", "stylesheets")
+          @config.css_load_path
         end
       end
 
