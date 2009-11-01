@@ -45,4 +45,7 @@ describe AssetTrip::Middleware do
     response = get "/__asset_trip__/%6D%61%69%6E.js" # main.js
     response.should be_ok
   end
+
+  it "serves Javascripts based on the JS load path"
+  it "serves Stylesheets based on the CSS load path"
 end
