@@ -4,9 +4,8 @@ module AssetTrip
   class Asset
     extend Memoizable
 
-    def initialize(asset_config, processor)
+    def initialize(asset_config)
       @asset_config = asset_config
-      @processor = processor
     end
 
     def bundle!
@@ -28,11 +27,15 @@ module AssetTrip
   private
 
     def contents
-      @asset_config.paths.map do |path|
-        @processor.process(File.read(path))
-      end.join
+      joined_contents
     end
     memoize :contents
+
+    def joined_contents
+      @asset_config.paths.map do |path|
+        File.read(path)
+      end.join("\n\n")
+    end
 
     def path
       dir.join(@asset_config.name)

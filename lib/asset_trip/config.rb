@@ -47,24 +47,19 @@ module AssetTrip
     end
 
     def js_asset(name, &block)
-      @asset_configs << AssetConfig.new(self, name, "js", &block)
+      @asset_configs << JavascriptConfig.new(self, name, &block)
     end
 
     def css_asset(name, &block)
-      @asset_configs << AssetConfig.new(self, name, "css", &block)
+      @asset_configs << StylesheetConfig.new(self, name, &block)
     end
 
     class AssetConfig
 
-      def initialize(config, name, type, &block)
+      def initialize(config, name, &block)
         @config = config
         @name = name
-        @type = type
         instance_eval(&block)
-      end
-
-      def asset
-        Asset.new(self, processor)
       end
 
       def assets_path
@@ -78,15 +73,7 @@ module AssetTrip
         end
       end
 
-      def name
-        "#{@name}.#{@type}"
-      end
-
     private
-
-      def extension
-        ".#{@type}"
-      end
 
       def include(name)
         files << name
@@ -96,23 +83,52 @@ module AssetTrip
         @files ||= []
       end
 
-      def processor
-        if @type == "js"
-          JavascriptProcessor.new
-        else
-          StylesheetProcessor.new
-        end
+    end
+
+    class JavascriptConfig < AssetConfig
+
+      def asset
+        Javascript.new(self)
       end
 
+      def name
+        "#{@name}.js"
+      end
+
+    private
+
       def load_path
-        if @type == "js"
-          @config.js_load_path
-        else
-          @config.css_load_path
-        end
+        @config.js_load_path
+      end
+
+      def extension
+        ".js"
       end
 
     end
+
+    class StylesheetConfig < AssetConfig
+
+      def asset
+        Stylesheet.new(self)
+      end
+
+      def name
+        "#{@name}.css"
+      end
+
+    private
+
+      def load_path
+        @config.css_load_path
+      end
+
+      def extension
+        ".css"
+      end
+
+    end
+
 
   end
 end
