@@ -1,8 +1,17 @@
+require "ostruct"
+
 module AssetTrip
   class UrlRewriter
+    include ActionView::Helpers::AssetTagHelper
+
+    def initialize
+      @controller = OpenStruct.new(:request => ActionController::Request.new({}))
+    end
 
     def rewrite(contents)
-      contents.gsub!(/url *\(([^\)]+)\)/) { "url(#{add_asset_host_to_path($1)})" }
+      contents.gsub!(/url *\(([^\)]+)\)/) do
+        "url(#{add_asset_host_to_path($1)})"
+      end
       contents
     end
 
@@ -22,25 +31,7 @@ module AssetTrip
         host = "http://#{host}"
       end
 
-      host + path
-    end
-
-    def compute_asset_host(source)
-      if host = ActionController::Base.asset_host
-        # if host.is_a?(Proc)
-        #   case host.arity
-        #   when 2
-        #     host.call(source, request)
-        #   else
-        #     host.call(source)
-        #   end
-        # else
-          (host =~ /%d/) ? host % (source.hash % 4) : host
-        # end
-      end
-    end
-
-    def request
+      host.to_s + path
     end
 
   end

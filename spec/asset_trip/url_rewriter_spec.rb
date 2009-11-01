@@ -64,6 +64,44 @@ describe AssetTrip::UrlRewriter do
     output.should include('url(/foo.htc)')
   end
 
+  it "works with asset host procs taking one arg" do
+    ActionController::Base.stub!(:asset_host => Proc.new { |source|
+      source.should_not be_nil
+      "http://cdn.example.com"
+    })
+
+    output = AssetTrip::UrlRewriter.new.rewrite <<-CSS
+      .foo { background: url(/foo.jpg) }
+    CSS
+
+    output.should include('url(http://cdn.example.com/foo.jpg)')
+  end
+
+  it "works with asset host procs taking two args" do
+    ActionController::Base.stub!(:asset_host => Proc.new { |source, request|
+      source.should_not be_nil
+      request.should_not be_nil
+      "http://cdn.example.com"
+    })
+
+    output = AssetTrip::UrlRewriter.new.rewrite <<-CSS
+      .foo { background: url(/foo.jpg) }
+    CSS
+
+    output.should include('url(http://cdn.example.com/foo.jpg)')
+  end
+
+  it "works with no asset host" do
+    ActionController::Base.stub!(:asset_host => nil)
+
+    output = AssetTrip::UrlRewriter.new.rewrite <<-CSS
+      .foo { background: url(/foo.jpg) }
+    CSS
+
+    output.should include('url(/foo.jpg)')
+  end
+
+  it "does not modify relative paths"
   it "includes the file mtime for background images in the query string"
   it "generates an SSL version of the file"
   it "generates a non-SSL version of the file"

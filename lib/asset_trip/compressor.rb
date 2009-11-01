@@ -1,7 +1,6 @@
 require 'popen4'
 
 module AssetTrip
-
   class Compressor
 
     def initialize(type)
