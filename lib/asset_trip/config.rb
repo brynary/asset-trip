@@ -43,9 +43,7 @@ module AssetTrip
   private
 
     def assets
-      @asset_configs.map do |asset_config|
-        Asset.new(asset_config)
-      end
+      @asset_configs.map(&:asset)
     end
 
     def js_asset(name, &block)
@@ -63,6 +61,10 @@ module AssetTrip
         @name = name
         @type = type
         instance_eval(&block)
+      end
+
+      def asset
+        Asset.new(self, processor)
       end
 
       def assets_path
@@ -92,6 +94,14 @@ module AssetTrip
 
       def files
         @files ||= []
+      end
+
+      def processor
+        if @type == "js"
+          JavascriptProcessor.new
+        else
+          StylesheetProcessor.new
+        end
       end
 
       def load_path

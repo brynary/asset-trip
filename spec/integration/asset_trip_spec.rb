@@ -1,4 +1,5 @@
 require "spec_helper"
+require "action_controller"
 
 describe AssetTrip do
   it "stores each Asset into the public directory" do

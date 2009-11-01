@@ -5,10 +5,12 @@ module AssetTrip
   autoload :Compressor, "asset_trip/compressor"
   autoload :Config, "asset_trip/config"
   autoload :Helper, "asset_trip/helper"
+  autoload :JavascriptProcessor, "asset_trip/javascript_processor"
   autoload :LoadPath, "asset_trip/load_path"
   autoload :Manifest, "asset_trip/manifest"
   autoload :Middleware, "asset_trip/middleware"
   autoload :Memoizable, "asset_trip/memoizable"
+  autoload :StylesheetProcessor, "asset_trip/stylesheet_processor"
   autoload :UrlRewriter, "asset_trip/url_rewriter"
 
   class CompressorError < StandardError

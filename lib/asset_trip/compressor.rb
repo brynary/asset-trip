@@ -4,15 +4,15 @@ module AssetTrip
 
   class Compressor
 
-    def initialize(path)
-      @path = path
+    def initialize(type)
+      @type = type
     end
 
     def compress(contents)
       out = nil
       err = nil
 
-      status = POpen4::popen4(command) do |stdout, stderr, stdin, pid|
+      status = POpen4.popen4(command) do |stdout, stderr, stdin, pid|
         stdin.puts contents
         stdin.close
         out = stdout.read.strip
@@ -34,7 +34,7 @@ module AssetTrip
     end
 
     def type
-      "--type " + @path.basename.to_s.split(".").last
+      "--type " + @type
     end
 
   end
