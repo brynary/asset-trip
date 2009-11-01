@@ -22,7 +22,5 @@ describe AssetTrip::Compressor do
         compressor.compress("a { color: red }")
       }.should raise_error(AssetTrip::CompressorError)
     end
-
-    it "includes custom command line options from the configuration"
   end
 end
