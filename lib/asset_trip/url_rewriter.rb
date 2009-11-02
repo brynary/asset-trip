@@ -19,10 +19,7 @@ module AssetTrip
 
     def add_asset_host_to_path(path)
       return path if path.include?('.htc')
-
-      path.gsub!(/^\s*['"]*/, "")
-      path.gsub!(/['"]*\s*$/, "")
-
+      strip_quotes!(path)
       return path if path.starts_with?("http")
 
       host = compute_asset_host(path)
@@ -32,6 +29,11 @@ module AssetTrip
       end
 
       host.to_s + path
+    end
+
+    def strip_quotes!(path)
+      path.gsub!(/^\s*['"]*/, "")
+      path.gsub!(/['"]*\s*$/, "")
     end
 
   end
