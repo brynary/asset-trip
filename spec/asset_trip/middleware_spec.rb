@@ -30,6 +30,11 @@ describe AssetTrip::Middleware do
     response.should be_ok
   end
 
+  it "serves Stylesheets" do
+    response = get "/__asset_trip__/stylesheets/new.css"
+    response.should be_ok
+  end
+
   it "sets the Last-Modified header" do
     path = File.join(Dir.pwd, "app", "javascripts", "main.js")
     response = get "/__asset_trip__/javascripts/main.js"

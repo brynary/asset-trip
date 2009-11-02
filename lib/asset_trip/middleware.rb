@@ -56,15 +56,27 @@ module AssetTrip
     end
 
     def filename
-      @filename ||= path_info[(URL_PREFIX.size + "javascripts".size + 2)..-1]
+      @filename ||= path_info[("/#{URL_PREFIX}/#{asset_type}".size)..-1]
     end
 
     def path_info
       @path_info ||= Rack::Utils.unescape(@env["PATH_INFO"])
     end
 
+    def asset_type
+      if path_info.include?("javascripts")
+        "javascripts"
+      else
+        "stylesheets"
+      end
+    end
+
     def load_path
-      AssetTrip.config.js_load_path
+      if asset_type == "javascripts"
+        AssetTrip.config.js_load_path
+      else
+        AssetTrip.config.css_load_path
+      end
     end
 
     def serve_file
