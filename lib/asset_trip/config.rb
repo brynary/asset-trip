@@ -8,20 +8,19 @@ module AssetTrip
       eval "self.new {( " + source + "\n )}"
     end
 
+    attr_reader :assets_path
     attr_reader :asset_configs
+
     attr_reader :js_load_path
     attr_reader :css_load_path
-    attr_reader :assets_path
 
     def initialize(&block)
-      @js_load_path = LoadPath.new
-      @js_load_path << "app/javascripts"
-
-      @css_load_path = LoadPath.new
-      @css_load_path << "app/stylesheets"
+      @js_load_path = LoadPath.new([Pathname.new("app/javascripts")])
+      @css_load_path = LoadPath.new([Pathname.new("app/stylesheets")])
 
       @asset_configs = []
       @assets_path = AssetTrip.app_root.join("public", "assets")
+
       instance_eval(&block)
     end
 

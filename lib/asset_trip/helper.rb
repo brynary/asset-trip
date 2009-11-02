@@ -1,7 +1,4 @@
 module AssetTrip
-  class UnknownAssetError < StandardError
-  end
-
   module Helper
 
     def javascript_include_asset(*sources)

@@ -4,7 +4,6 @@ module AssetTrip
     URL_PREFIX = "/__asset_trip__"
 
     def initialize(app)
-      @root = File.join(Dir.pwd, "app", "javascripts")
       @app = app
     end
 
@@ -17,7 +16,12 @@ module AssetTrip
 
       if @path_info.index(URL_PREFIX) == 0
         return forbidden if @path_info.include?("..")
-        @path = File.join(@root, @path_info[URL_PREFIX.size..-1])
+
+        begin
+          @path = AssetTrip.config.js_load_path.resolve(@path_info[(URL_PREFIX.size + 1)..-1])
+        rescue UnknownAssetError
+          return not_found
+        end
 
         if File.file?(@path) && File.readable?(@path)
           serving

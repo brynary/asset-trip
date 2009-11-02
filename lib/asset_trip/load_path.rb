@@ -24,11 +24,11 @@ module AssetTrip
       result = file_paths.detect do |file_path|
         File.exist?(file_path)
       end
-      
+
       if result
         return result
       else
-        raise "Could not find #{file} in paths: #{@paths.inspect}"
+        raise UnknownAssetError.new("Could not find #{file} in paths: #{@paths.inspect}")
       end
     end
 

@@ -16,6 +16,9 @@ module AssetTrip
   class CompressorError < StandardError
   end
 
+  class UnknownAssetError < StandardError
+  end
+
   def self.bundle!
     config.bundle!
   end

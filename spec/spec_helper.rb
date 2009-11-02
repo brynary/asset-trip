@@ -11,6 +11,7 @@ Spec::Runner.configure do |config|
 
   config.before do
     reset_filesystem!
+
     @old_pwd = Dir.pwd
     Dir.chdir(fixture_app)
   end
