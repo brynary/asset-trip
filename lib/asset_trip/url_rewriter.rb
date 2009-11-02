@@ -1,4 +1,5 @@
 require "ostruct"
+require "uri"
 
 module AssetTrip
   class UrlRewriter
@@ -18,17 +19,21 @@ module AssetTrip
   private
 
     def add_asset_host_to_path(path)
-      return path if path.include?('.htc')
       strip_quotes!(path)
-      return path if path.starts_with?("http")
+
+      path_uri = URI.parse(path)
+      return path if path_uri.absolute? || File.extname(path_uri.path) == '.htc'
 
       host = compute_asset_host(path)
+      host_uri = URI.parse(host.to_s)
 
-      if !host.blank? && host !~ %r{^[-a-z]+://}
+      if !host.blank? && host_uri.relative?
+        # host_uri.scheme = "http"
         host = "http://#{host}"
       end
 
       host.to_s + path
+      # host_uri.to_s + path
     end
 
     def strip_quotes!(path)
