@@ -2,13 +2,13 @@ require "spec_helper"
 
 describe AssetTrip::Config do
   # TODO: it would be great to avoid needing this for these specs
-  before do
+  before(:all) do
     reset_filesystem!
     @old_pwd = Dir.pwd
     Dir.chdir(fixture_app)
   end
 
-  after do
+  after(:all) do
     Dir.chdir(@old_pwd)
   end
 

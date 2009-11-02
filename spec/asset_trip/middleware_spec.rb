@@ -4,13 +4,13 @@ require "rack/test"
 describe AssetTrip::Middleware do
   include Rack::Test::Methods
 
-  before do
+  before(:all) do
     reset_filesystem!
     @old_pwd = Dir.pwd
     Dir.chdir(fixture_app)
   end
 
-  after do
+  after(:all) do
     Dir.chdir(@old_pwd)
   end
 
