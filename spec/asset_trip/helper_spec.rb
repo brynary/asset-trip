@@ -120,7 +120,6 @@ describe AssetTrip::Helper do
       stylesheet_link_tag("foo").should include("rails_asset_id")
     end
 
-    it "respects a custom assets_path from the manifest"
     it "generates a link to the SSL version when necessary"
   end
 

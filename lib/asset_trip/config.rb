@@ -11,6 +11,7 @@ module AssetTrip
     attr_reader :asset_configs
     attr_reader :js_load_path
     attr_reader :css_load_path
+    attr_reader :assets_path
 
     def initialize(&block)
       @js_load_path = LoadPath.new
@@ -30,14 +31,6 @@ module AssetTrip
       end
 
       Manifest.new(assets).write!
-    end
-
-    def assets_path(*args)
-      if args.size == 0
-        return @assets_path
-      else
-        @assets_path = Pathname.new(args.first)
-      end
     end
 
   private

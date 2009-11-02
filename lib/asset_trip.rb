@@ -17,7 +17,11 @@ module AssetTrip
   end
 
   def self.bundle!
-    Config.from_file(config_path).bundle!
+    config.bundle!
+  end
+
+  def self.config
+    Config.from_file(config_path)
   end
 
   def self.manifest
@@ -29,7 +33,7 @@ module AssetTrip
   end
 
   def self.root
-    Pathname.new(File.dirname(__FILE__)).join("..").expand_path
+    Pathname.new(__FILE__).dirname.join("..").expand_path
   end
 
   def self.config_path

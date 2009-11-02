@@ -23,13 +23,6 @@ describe AssetTrip::Config do
     asset_config.paths.should == [app_javascript("main", "new.js")]
   end
 
-  it "supports setting the assets path" do
-    config = AssetTrip::Config.new do
-      assets_path File.join(".", "my_assets")
-    end
-    config.assets_path.should == Pathname.new("./my_assets")
-  end
-
   it "supports writing an asset to a subdirectory" do
     config = AssetTrip::Config.new do
       js_asset "signup/foo" do
