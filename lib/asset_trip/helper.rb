@@ -53,7 +53,7 @@ module AssetTrip
       asset = AssetTrip.config.assets_hash[_source_with_extension(source, ".css")]
 
       asset.files.map do |file|
-        "/__asset_trip__/stylesheets/" + file
+        "http://#{request.host}/__asset_trip__/stylesheets/" + file
       end
     end
 
@@ -61,7 +61,7 @@ module AssetTrip
       asset = AssetTrip.config.assets_hash[_source_with_extension(source, ".js")]
 
       asset.files.map do |file|
-        "/__asset_trip__/javascripts/" + file
+        "http://#{request.host}/__asset_trip__/javascripts/" + file
       end
     end
 

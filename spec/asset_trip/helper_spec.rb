@@ -12,6 +12,10 @@ describe AssetTrip::Helper do
     @controller = nil
   end
 
+  def request
+    stub(:host => "localhost.com")
+  end
+
   describe "#javascript_include_asset" do
     it "generates a <script> tag based on the Manifest" do
       AssetTrip.stub!(:manifest => AssetTrip::Manifest.new("foo.js" => "884695aafa07bf0c3e1f1fe578dd10d0"))
@@ -136,8 +140,8 @@ describe AssetTrip::Helper do
       AssetTrip.stub!(:config => config)
 
       javascript_include_asset("foo").should be_like(<<-HTML)
-        <script src="/__asset_trip__/javascripts/first.js" type="text/javascript"></script>
-        <script src="/__asset_trip__/javascripts/second.js" type="text/javascript"></script>
+        <script src="http://localhost.com/__asset_trip__/javascripts/first.js" type="text/javascript"></script>
+        <script src="http://localhost.com/__asset_trip__/javascripts/second.js" type="text/javascript"></script>
       HTML
     end
 
@@ -153,8 +157,8 @@ describe AssetTrip::Helper do
       AssetTrip.stub!(:config => config)
 
       stylesheet_link_asset("all").should be_like(<<-HTML)
-        <link href="/__asset_trip__/stylesheets/fonts.css" media="screen" rel="stylesheet" type="text/css" />
-        <link href="/__asset_trip__/stylesheets/colors.css" media="screen" rel="stylesheet" type="text/css" />
+        <link href="http://localhost.com/__asset_trip__/stylesheets/fonts.css" media="screen" rel="stylesheet" type="text/css" />
+        <link href="http://localhost.com/__asset_trip__/stylesheets/colors.css" media="screen" rel="stylesheet" type="text/css" />
       HTML
     end
   end
