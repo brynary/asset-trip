@@ -21,8 +21,15 @@ module AssetTrip
 
     def add_asset_host_to_path(path)
       strip_quotes!(path)
-      return path unless prepend_asset_host?(path)
+      
+      if prepend_asset_host?(path)
+        URI::Generic.build(uri_components(path)).to_s
+      else
+        path
+      end
+    end
 
+    def uri_components(path)
       opts = { :path => path }
 
       if (asset_id = rails_asset_id(path)).present?
@@ -34,12 +41,15 @@ module AssetTrip
         opts[:scheme] = "http"
       end
 
-      URI::Generic.build(opts).to_s
+      return opts
     end
 
     def prepend_asset_host?(path)
       uri = URI.parse(path)
-      uri.path.starts_with?('/') && uri.relative? && File.extname(uri.path) != '.htc'
+
+      uri.path.starts_with?('/') &&
+      uri.relative? &&
+      File.extname(uri.path) != '.htc'
     end
 
     def strip_scheme(host)
