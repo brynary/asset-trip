@@ -6,6 +6,7 @@ module AssetTrip
     include ActionView::Helpers::AssetTagHelper
 
     def initialize
+      # Used by Rails compute_asset_host method from ActionView::Helpers::AssetTagHelper
       @controller = OpenStruct.new(:request => ActionController::Request.new({}))
     end
 
@@ -20,20 +21,25 @@ module AssetTrip
 
     def add_asset_host_to_path(path)
       strip_quotes!(path)
+      return path unless prepend_asset_host?(path)
 
-      path_uri = URI.parse(path)
-      return path if path_uri.absolute? || File.extname(path_uri.path) == '.htc'
+      host = compute_asset_host(path).to_s
+      return path if host.blank?
 
-      host = compute_asset_host(path)
-      host_uri = URI.parse(host.to_s)
+      URI::Generic.build(
+        :host   => strip_scheme(host),
+        :scheme => "http",
+        :path   => path
+      ).to_s
+    end
 
-      if !host.blank? && host_uri.relative?
-        # host_uri.scheme = "http"
-        host = "http://#{host}"
-      end
+    def prepend_asset_host?(path)
+      uri = URI.parse(path)
+      uri.relative? && File.extname(uri.path) != '.htc'
+    end
 
-      host.to_s + path
-      # host_uri.to_s + path
+    def strip_scheme(host)
+      host.gsub(/^[a-z]+:\/\//, '')
     end
 
     def strip_quotes!(path)
