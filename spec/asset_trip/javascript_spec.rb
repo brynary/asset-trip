@@ -2,17 +2,17 @@ require "spec_helper"
 
 describe AssetTrip::Javascript do
   describe "#contents" do
+    before do
+      AssetTrip::Compressor.stub!(:new => compressor)
+      File.stub!(:read => "contents")
+    end
+
     let :config do
-      stub(:paths => [Pathname.new("foo.css")])
+      stub(:paths => [Pathname.new("foo.js")])
     end
 
     let :compressor do
       stub(:compress => "compressed")
-    end
-
-    before do
-      AssetTrip::Compressor.stub!(:new => compressor)
-      File.stub!(:read => "contents")
     end
 
     it "compresses the contents" do

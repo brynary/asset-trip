@@ -1,3 +1,5 @@
+require "action_controller"
+require "action_view"
 require "ostruct"
 require "uri"
 
