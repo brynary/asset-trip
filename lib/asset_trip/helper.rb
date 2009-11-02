@@ -26,15 +26,11 @@ module AssetTrip
   private
 
     def _asset_trip_url(source, extension)
-      key = File.basename(source.to_s, extension) + extension
-      md5sum = AssetTrip.manifest[key]
+      AssetTrip.manifest.path_for(_source_with_extension(source, extension))
+    end
 
-      raise UnknownAssetError.new("Can't find #{key} in the manifest") unless md5sum
-
-      part1 = md5sum[0..1]
-      part2 = md5sum[2..10]
-
-      "/" + File.join("assets", part1, part2, key)
+    def _source_with_extension(source, extension)
+      File.basename(source.to_s, extension) + extension
     end
 
   end
