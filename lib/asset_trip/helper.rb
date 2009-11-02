@@ -2,14 +2,17 @@ module AssetTrip
   module Helper
 
     def javascript_include_asset(*sources)
-      sources.map! { |source| _asset_trip_url(source, ".js") }
-      sources.collect { |source| javascript_include_tag(source) }.join("\n")
+      sources.map do |source|
+        javascript_include_tag(_asset_trip_url(source, ".js"))
+      end.join("\n")
     end
 
     def stylesheet_link_asset(*sources)
       options = sources.extract_options!
-      sources.map! { |source| _asset_trip_url(source, ".css") }
-      sources.collect { |source| stylesheet_link_tag(source, options) }.join("\n")
+
+      sources.map do |source|
+        stylesheet_link_tag(_asset_trip_url(source, ".css"), options)
+      end.join("\n")
     end
 
     def rewrite_asset_path(source)
@@ -19,6 +22,8 @@ module AssetTrip
         super
       end
     end
+
+  private
 
     def _asset_trip_url(source, extension)
       key = File.basename(source.to_s, extension) + extension
