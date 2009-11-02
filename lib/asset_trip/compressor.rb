@@ -25,15 +25,11 @@ module AssetTrip
   private
 
     def command
-      "java -jar #{jar_path} #{type}"
+      "java -jar #{jar_path} --type #{@type}"
     end
 
     def jar_path
       AssetTrip.root.join("vendor", "yuicompressor-2.4.2.jar")
-    end
-
-    def type
-      "--type " + @type
     end
 
   end
