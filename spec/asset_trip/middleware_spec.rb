@@ -62,5 +62,9 @@ describe AssetTrip::Middleware do
     response.should be_not_found
   end
 
-  it "serves Stylesheets based on the CSS load path"
+  it "serves Stylesheets based on the CSS load path" do
+    AssetTrip.config.stub!(:css_load_path => AssetTrip::LoadPath.new)
+    response = get "/__asset_trip__/stylesheets/new.css"
+    response.should be_not_found
+  end
 end

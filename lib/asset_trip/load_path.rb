@@ -16,7 +16,10 @@ module AssetTrip
       @paths << Pathname.new(path)
     end
 
+    # TODO: Refactor
     def resolve(file)
+      raise UnknownAssetError.new("Could not find #{file} in paths: #{@paths.inspect}") if file.nil?
+
       file_paths = @paths.map do |path|
         path.join(file).expand_path
       end

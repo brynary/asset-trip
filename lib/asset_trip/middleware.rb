@@ -64,19 +64,21 @@ module AssetTrip
     end
 
     def asset_type
-      if path_info.include?("javascripts")
-        "javascripts"
-      else
-        "stylesheets"
-      end
+      path_parts[2]
     end
 
     def load_path
       if asset_type == "javascripts"
         AssetTrip.config.js_load_path
-      else
+      elsif asset_type == "stylesheets"
         AssetTrip.config.css_load_path
+      else
+        AssetTrip::LoadPath.new
       end
+    end
+
+    def path_parts
+      path_info.split("/")
     end
 
     def serve_file
