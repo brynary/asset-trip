@@ -2,7 +2,9 @@ module AssetTrip
   class Javascript < Asset
 
     def contents
-      Compressor.new("js").compress(joined_contents)
+      contents = joined_contents
+      contents = Compressor.new("js").compress(contents)
+      return contents
     end
 
   end
