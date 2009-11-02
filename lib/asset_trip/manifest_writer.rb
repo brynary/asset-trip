@@ -8,7 +8,7 @@ module AssetTrip
     def write!
       File.open(path, "w") do |file|
         file.puts "module AssetTrip"
-        file.puts "  @manifest = {}"
+        file.puts "  @manifest = Manifest.new"
 
         @assets.each do |asset|
           file.puts "  @manifest[#{asset.name.inspect}] = #{asset.md5sum.inspect}"

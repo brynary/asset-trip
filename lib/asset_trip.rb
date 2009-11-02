@@ -7,6 +7,7 @@ module AssetTrip
   autoload :Helper, "asset_trip/helper"
   autoload :Javascript, "asset_trip/javascript"
   autoload :LoadPath, "asset_trip/load_path"
+  autoload :Manifest, "asset_trip/manifest"
   autoload :ManifestWriter, "asset_trip/manifest_writer"
   autoload :Middleware, "asset_trip/middleware"
   autoload :Memoizable, "asset_trip/memoizable"

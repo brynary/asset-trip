@@ -78,7 +78,7 @@ describe AssetTrip do
 
     File.read(fixture_app.join("config", "asset_trip", "manifest.rb")).should be_like(<<-RUBY)
       module AssetTrip
-        @manifest = {}
+        @manifest = Manifest.new
         @manifest["signup.js"] = "7d6db1efb9e6b58620939540ae067c7b"
       end
     RUBY
