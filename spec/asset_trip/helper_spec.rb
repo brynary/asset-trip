@@ -124,7 +124,22 @@ describe AssetTrip::Helper do
   end
 
   context "when bundling is disabled" do
-    it "generates links to the files in the asset"
+    xit "generates links to the files in the asset" do
+      AssetTrip.stub!(:bundle => false)
+
+      config = AssetTrip::Config.new do
+        js_asset "foo" do
+          include "first"
+          include "second"
+        end
+      end
+      AssetTrip.stub!(:config => config)
+
+      javascript_include_asset("foo").should be_like(<<-HTML)
+        <script src="/__asset_trip__/javascripts/first.js" type="text/javascript"></script>
+        <script src="/__asset_trip__/javascripts/second.js" type="text/javascript"></script>
+      HTML
+    end
   end
 end
 

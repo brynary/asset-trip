@@ -51,6 +51,7 @@ describe AssetTrip do
       end
     CONFIG
     bundle!
+    AssetTrip.instance_variable_set(:@config, nil)
     write_javascript("main.js", 'alert("new.main");')
     bundle!
     assets("signup.js").should have(2).items

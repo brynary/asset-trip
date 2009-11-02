@@ -7,18 +7,17 @@ describe AssetTrip::Stylesheet do
       File.stub!(:read => "contents")
     end
 
-    let(:config)     { stub(:paths => [Pathname.new("foo.css")]) }
     let(:compressor) { stub(:compress => "compressed") }
 
     it "compresses the contents" do
       AssetTrip::Compressor.should_receive(:new).with("css")
-      asset = AssetTrip::Stylesheet.new(config)
+      asset = AssetTrip::Stylesheet.new(stub(), "all.css")
       asset.contents.should == "compressed"
     end
 
     it "only runs the Compressor once for the package" do
       compressor.should_receive(:compress).exactly(:once)
-      asset = AssetTrip::Stylesheet.new(config)
+      asset = AssetTrip::Stylesheet.new(stub(), "all.css")
       asset.contents.should == "compressed"
     end
 

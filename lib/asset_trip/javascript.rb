@@ -7,5 +7,19 @@ module AssetTrip
       return contents
     end
 
+    def name
+      "#{@name}.js"
+    end
+
+  private
+
+    def load_path
+      @config.js_load_path
+    end
+
+    def extension
+      ".js"
+    end
+
   end
 end

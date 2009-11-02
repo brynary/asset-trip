@@ -20,6 +20,9 @@ module AssetTrip
   class UnknownAssetError < StandardError
   end
 
+  mattr_accessor :bundle
+  self.bundle = true
+
   def self.bundle!
     config.bundle!
   end

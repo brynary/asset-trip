@@ -19,7 +19,7 @@ describe AssetTrip::Config do
       end
     end
 
-    asset_config = config.asset_configs.first
+    asset_config = config.assets.first
     asset_config.paths.should == [app_javascript("main.js")]
   end
 
@@ -30,7 +30,7 @@ describe AssetTrip::Config do
       end
     end
 
-    asset_config = config.asset_configs.first
+    asset_config = config.assets.first
     asset_config.paths.should == [app_javascript("main", "new.js")]
   end
 
@@ -41,7 +41,7 @@ describe AssetTrip::Config do
       end
     end
 
-    asset_config = config.asset_configs.first
+    asset_config = config.assets.first
     asset_config.name.should == "signup/foo.js"
   end
 

@@ -2,9 +2,16 @@ module AssetTrip
   module Helper
 
     def javascript_include_asset(*sources)
-      sources.map do |source|
-        javascript_include_tag(_asset_trip_url(source, ".js"))
-      end.join("\n")
+      if AssetTrip.bundle
+        sources.map do |source|
+          javascript_include_tag(_asset_trip_url(source, ".js"))
+        end.join("\n")
+      else
+        ""
+        # sources.map do |source|
+        #   AssetTrip.config.js_asset
+        # end.join("\n")
+      end
     end
 
     def stylesheet_link_asset(*sources)
