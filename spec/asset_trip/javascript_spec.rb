@@ -7,13 +7,8 @@ describe AssetTrip::Javascript do
       File.stub!(:read => "contents")
     end
 
-    let :config do
-      stub(:paths => [Pathname.new("foo.js")])
-    end
-
-    let :compressor do
-      stub(:compress => "compressed")
-    end
+    let(:config)     { stub(:paths => [Pathname.new("foo.js")]) }
+    let(:compressor) { stub(:compress => "compressed") }
 
     it "compresses the contents" do
       AssetTrip::Compressor.should_receive(:new).with("js")

@@ -7,13 +7,8 @@ describe AssetTrip::Stylesheet do
       File.stub!(:read => "contents")
     end
 
-    let :config do
-      stub(:paths => [Pathname.new("foo.css")])
-    end
-
-    let :compressor do
-      stub(:compress => "compressed")
-    end
+    let(:config)     { stub(:paths => [Pathname.new("foo.css")]) }
+    let(:compressor) { stub(:compress => "compressed") }
 
     it "compresses the contents" do
       AssetTrip::Compressor.should_receive(:new).with("css")
