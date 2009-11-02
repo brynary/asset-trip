@@ -1,6 +1,17 @@
 require "spec_helper"
 
 describe AssetTrip::Config do
+  # TODO: it would be great to avoid needing this for these specs
+  before do
+    reset_filesystem!
+    @old_pwd = Dir.pwd
+    Dir.chdir(fixture_app)
+  end
+
+  after do
+    Dir.chdir(@old_pwd)
+  end
+
   it "can bundle files included with the file extension" do
     config = AssetTrip::Config.new do
       js_asset "signup" do

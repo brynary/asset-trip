@@ -4,6 +4,16 @@ require "rack/test"
 describe AssetTrip::Middleware do
   include Rack::Test::Methods
 
+  before do
+    reset_filesystem!
+    @old_pwd = Dir.pwd
+    Dir.chdir(fixture_app)
+  end
+
+  after do
+    Dir.chdir(@old_pwd)
+  end
+
   def app
     AssetTrip::Middleware.new(lambda {
       [404, {"Content-Type" => "text/html"}, ["Not Found"]]

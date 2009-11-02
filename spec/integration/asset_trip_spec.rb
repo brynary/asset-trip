@@ -2,6 +2,16 @@ require "spec_helper"
 require "action_controller"
 
 describe AssetTrip do
+  before do
+    reset_filesystem!
+    @old_pwd = Dir.pwd
+    Dir.chdir(fixture_app)
+  end
+
+  after do
+    Dir.chdir(@old_pwd)
+  end
+
   it "stores each Asset into the public directory" do
     install_js_config <<-CONFIG
       js_asset "signup" do
