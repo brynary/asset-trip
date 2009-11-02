@@ -41,5 +41,25 @@ describe AssetTrip::Config do
     asset_config.name.should == "signup/foo.js"
   end
 
-  it "supports adding to the load paths"
+  it "supports adding to the JS load paths" do
+    config = AssetTrip::Config.new do
+      js_load_path << "foo"
+    end
+
+    config.js_load_path.should == AssetTrip::LoadPath.new([
+      Pathname.new("app/javascripts"),
+      Pathname.new("foo")
+    ])
+  end
+
+  it "supports adding to the CSS load paths" do
+    config = AssetTrip::Config.new do
+      css_load_path << "foo"
+    end
+
+    config.css_load_path.should == AssetTrip::LoadPath.new([
+      Pathname.new("app/stylesheets"),
+      Pathname.new("foo")
+    ])
+  end
 end

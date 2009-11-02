@@ -1,8 +1,15 @@
 module AssetTrip
   class LoadPath
 
-    def initialize
-      @paths = []
+    attr_reader :paths
+
+    def initialize(paths = [])
+      @paths = paths
+    end
+
+    def ==(other)
+      self.class == other.class &&
+      @paths == other.paths
     end
 
     def <<(path)
