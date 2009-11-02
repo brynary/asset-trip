@@ -15,7 +15,7 @@ module AssetTrip
     attr_reader :css_load_path
 
     def initialize(&block)
-      @js_load_path = LoadPath.new([Pathname.new("app/javascripts")])
+      @js_load_path  = LoadPath.new([Pathname.new("app/javascripts")])
       @css_load_path = LoadPath.new([Pathname.new("app/stylesheets")])
 
       @asset_configs = []
@@ -29,7 +29,7 @@ module AssetTrip
         asset.bundle!
       end
 
-      Manifest.new(assets).write!
+      ManifestWriter.new(assets).write!
     end
 
   private

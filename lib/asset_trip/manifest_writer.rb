@@ -1,5 +1,5 @@
 module AssetTrip
-  class Manifest
+  class ManifestWriter
 
     def initialize(assets)
       @assets = assets
@@ -26,3 +26,4 @@ module AssetTrip
 
   end
 end
+

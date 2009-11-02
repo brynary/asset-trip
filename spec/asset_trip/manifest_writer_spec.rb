@@ -1,6 +1,6 @@
 require "spec_helper"
 
-describe AssetTrip::Manifest do
+describe AssetTrip::ManifestWriter do
   describe "#write!" do
     it "writes a Ruby file"
     it "initializes @manifest in AssetTrip to be a hash"
