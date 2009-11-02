@@ -101,8 +101,20 @@ describe AssetTrip::UrlRewriter do
     output.should include('url(/foo.jpg)')
   end
 
-  it "does not modify relative paths"
+  it "does not modify relative paths" do
+    ActionController::Base.stub!(:asset_host => "http://cdn.example.com")
+
+    output = AssetTrip::UrlRewriter.new.rewrite <<-CSS
+      .foo { background: url(../foo.jpg) }
+      .bar { background: url(./bar.jpg) }
+    CSS
+
+    output.should include('url(../foo.jpg)')
+    output.should include('url(./bar.jpg)')
+  end
+
   it "includes the file mtime for background images in the query string"
+
   it "generates an SSL version of the file"
   it "generates a non-SSL version of the file"
 end

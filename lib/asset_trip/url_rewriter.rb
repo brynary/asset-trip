@@ -35,7 +35,7 @@ module AssetTrip
 
     def prepend_asset_host?(path)
       uri = URI.parse(path)
-      uri.relative? && File.extname(uri.path) != '.htc'
+      uri.path.starts_with?('/') && uri.relative? && File.extname(uri.path) != '.htc'
     end
 
     def strip_scheme(host)
