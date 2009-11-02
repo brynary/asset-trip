@@ -33,14 +33,14 @@ module AssetTrip
       @md5sum ||= Digest::MD5.hexdigest(contents)
     end
 
+    def files
+      @files ||= []
+    end
+
   private
 
     def include(name)
       files << name
-    end
-
-    def files
-      @files ||= []
     end
 
     def contents

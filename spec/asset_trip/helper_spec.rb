@@ -124,7 +124,7 @@ describe AssetTrip::Helper do
   end
 
   context "when bundling is disabled" do
-    xit "generates links to the files in the asset" do
+    it "generates links to the unbundled Javascripts" do
       AssetTrip.stub!(:bundle => false)
 
       config = AssetTrip::Config.new do
@@ -138,6 +138,23 @@ describe AssetTrip::Helper do
       javascript_include_asset("foo").should be_like(<<-HTML)
         <script src="/__asset_trip__/javascripts/first.js" type="text/javascript"></script>
         <script src="/__asset_trip__/javascripts/second.js" type="text/javascript"></script>
+      HTML
+    end
+
+    it "generates links to the unbundled Stylesheets" do
+      AssetTrip.stub!(:bundle => false)
+
+      config = AssetTrip::Config.new do
+        css_asset "all" do
+          include "fonts"
+          include "colors"
+        end
+      end
+      AssetTrip.stub!(:config => config)
+
+      stylesheet_link_asset("all").should be_like(<<-HTML)
+        <link href="/__asset_trip__/stylesheets/fonts.css" media="screen" rel="stylesheet" type="text/css" />
+        <link href="/__asset_trip__/stylesheets/colors.css" media="screen" rel="stylesheet" type="text/css" />
       HTML
     end
   end

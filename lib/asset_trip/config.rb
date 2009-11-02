@@ -9,6 +9,7 @@ module AssetTrip
     end
 
     attr_reader :assets
+    attr_reader :assets_hash
     attr_reader :js_load_path
     attr_reader :css_load_path
 
@@ -17,6 +18,7 @@ module AssetTrip
       @css_load_path = LoadPath.new([Pathname.new("app/stylesheets")])
 
       @assets = []
+      @assets_hash = {}
 
       instance_eval(&block)
     end
@@ -36,11 +38,15 @@ module AssetTrip
   private
 
     def js_asset(name, &block)
-      @assets << Javascript.new(self, name, &block)
+      asset = Javascript.new(self, name, &block)
+      @assets << asset
+      @assets_hash[asset.name] = asset
     end
 
     def css_asset(name, &block)
-      @assets << Stylesheet.new(self, name, &block)
+      asset = Stylesheet.new(self, name, &block)
+      @assets << asset
+      @assets_hash[asset.name] = asset
     end
 
   end
