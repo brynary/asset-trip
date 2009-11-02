@@ -14,6 +14,9 @@ Spec::Runner.configure do |config|
 
     @old_pwd = Dir.pwd
     Dir.chdir(fixture_app)
+
+    # TODO: Is there a better way to accomodate this concern?
+    AssetTrip.instance_variable_set(:@config, nil)
   end
 
   config.after do

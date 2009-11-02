@@ -24,7 +24,7 @@ module AssetTrip
   end
 
   def self.config
-    Config.from_file(config_path)
+    @config ||= Config.from_file(config_path)
   end
 
   def self.manifest

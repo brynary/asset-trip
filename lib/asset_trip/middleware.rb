@@ -56,7 +56,7 @@ module AssetTrip
     end
 
     def filename
-      @filename ||= path_info[(URL_PREFIX.size + 1)..-1]
+      @filename ||= path_info[(URL_PREFIX.size + "javascripts".size + 2)..-1]
     end
 
     def path_info
