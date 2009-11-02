@@ -6,6 +6,8 @@ module AssetTrip
     end
 
     def write!
+      FileUtils.mkdir_p(File.dirname(path))
+
       File.open(path, "w") do |file|
         file.puts "module AssetTrip"
         file.puts "  @manifest = Manifest.new"
