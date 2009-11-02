@@ -113,7 +113,15 @@ describe AssetTrip::UrlRewriter do
     output.should include('url(./bar.jpg)')
   end
 
-  it "includes the file mtime for background images in the query string"
+  it "includes the file mtime for background images in the query string" do
+    rewriter = AssetTrip::UrlRewriter.new
+    rewriter.stub!(:rails_asset_id => "123123123")
+
+    output = rewriter.rewrite <<-CSS
+      .foo { background: url(/foo.jpg) }
+    CSS
+    output.should include('url(/foo.jpg?123123123)')
+  end
 
   it "generates an SSL version of the file"
   it "generates a non-SSL version of the file"

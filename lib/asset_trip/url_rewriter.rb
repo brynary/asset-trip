@@ -23,14 +23,18 @@ module AssetTrip
       strip_quotes!(path)
       return path unless prepend_asset_host?(path)
 
-      host = compute_asset_host(path).to_s
-      return path if host.blank?
+      opts = { :path => path }
 
-      URI::Generic.build(
-        :host   => strip_scheme(host),
-        :scheme => "http",
-        :path   => path
-      ).to_s
+      if (asset_id = rails_asset_id(path)).present?
+        opts[:query] = asset_id
+      end
+
+      if (host = compute_asset_host(path)).present?
+        opts[:host]   = strip_scheme(host)
+        opts[:scheme] = "http"
+      end
+
+      URI::Generic.build(opts).to_s
     end
 
     def prepend_asset_host?(path)
