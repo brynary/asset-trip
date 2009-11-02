@@ -2,7 +2,9 @@ require "spec_helper"
 
 describe AssetTrip::Asset do
   describe "#bundle!" do
-
+    it "creates the directory for the asset"
+    it "writes the contents to the file"
+    it "splits the MD5 into two nested directories"
   end
 
   describe "#md5sum" do

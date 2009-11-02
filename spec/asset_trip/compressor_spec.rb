@@ -16,6 +16,8 @@ describe AssetTrip::Compressor do
       compressor.compress("a { color: red }")
     end
 
+    it "returns the STDOUT from the java process"
+
     it "raises a CompressorError if the java process is not successful" do
       POpen4.stub!(:popen4 => stub(:success? => false))
       lambda {
