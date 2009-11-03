@@ -28,10 +28,6 @@ module AssetTrip
       ManifestWriter.new(assets).write!
     end
 
-    def assets_path
-      AssetTrip.app_root.join("public", "assets")
-    end
-
     def resolve_file(asset_type, file)
       @load_paths[asset_type].resolve(file)
     end

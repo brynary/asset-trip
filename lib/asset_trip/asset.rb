@@ -21,11 +21,7 @@ module AssetTrip
     end
 
     def bundle!
-      FileUtils.mkdir_p(File.dirname(path))
-
-      File.open(path, "w") do |file|
-        file << contents
-      end
+      FileWriter.new(path).write!(contents)
     end
 
     def md5sum
@@ -57,7 +53,7 @@ module AssetTrip
     def dir
       part1 = md5sum[0..1]
       part2 = md5sum[2..10]
-      @config.assets_path.join(part1, part2)
+      AssetTrip.assets_path.join(part1, part2)
     end
 
   end

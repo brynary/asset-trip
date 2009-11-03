@@ -6,21 +6,25 @@ module AssetTrip
     end
 
     def write!
-      FileUtils.mkdir_p(File.dirname(path))
-
-      File.open(path, "w") do |file|
-        file.puts "module AssetTrip"
-        file.puts "  @manifest = Manifest.new"
-
-        @assets.each do |asset|
-          file.puts "  @manifest[#{asset.name.inspect}] = #{asset.md5sum.inspect}"
-        end
-
-        file.puts "end"
-      end
+      FileWriter.new(path).write!(contents)
     end
 
   private
+
+    def contents
+      source = StringIO.new
+
+      source.puts "module AssetTrip"
+      source.puts "  @manifest = Manifest.new"
+
+      @assets.each do |asset|
+        source.puts "  @manifest[#{asset.name.inspect}] = #{asset.md5sum.inspect}"
+      end
+
+      source.puts "end"
+
+      return source.string
+    end
 
     def path
       AssetTrip.app_root.join("config", "asset_trip", "manifest.rb")

@@ -1,24 +1,29 @@
 require "spec_helper"
 
 describe AssetTrip::Asset do
+  before do
+    AssetTrip::Compressor.stub!(:new => DummyCompressor.new)
+    File.stub!(:read => "contents")
+  end
+
   describe "#bundle!" do
-    it "creates the directory for the asset"
-    it "writes the contents to the file"
-    it "splits the MD5 into two nested directories"
+    it "splits the MD5 into two nested directories" do
+      path = AssetTrip.assets_path.join("d4", "1d8cd98f0", "asset.js")
+      AssetTrip::FileWriter.should_receive(:new).with(path).and_return(stub(:write! => nil))
+      asset = AssetTrip::Javascript.new(stub, "asset")
+      asset.bundle!
+    end
+
+    it "writes the contents to the file" do
+      writer = stub
+      writer.should_receive(:write!).with("contents")
+      AssetTrip::FileWriter.stub!(:new => writer)
+      asset = AssetTrip::Javascript.new(stub(:resolve_file => "foo.js"), "asset", [Pathname.new("foo.js")])
+      asset.bundle!
+    end
   end
 
   describe "#md5sum" do
-    before do
-      AssetTrip::Compressor.stub!(:new => DummyCompressor.new)
-      File.stub!(:read => "contents")
-    end
-
-    class DummyCompressor
-      def compress(contents)
-        return contents
-      end
-    end
-
     it "calculates the MD5 if there are no files" do
       asset = AssetTrip::Javascript.new(stub, "asset")
       asset.md5sum.should == "d41d8cd98f00b204e9800998ecf8427e"
@@ -37,6 +42,12 @@ describe AssetTrip::Asset do
         include "bar"
       end
       asset.md5sum.should == "237c43254a0799392cac71f795d9250e"
+    end
+  end
+
+  class DummyCompressor
+    def compress(contents)
+      return contents
     end
   end
 end

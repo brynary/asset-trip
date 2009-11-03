@@ -4,6 +4,7 @@ module AssetTrip
   autoload :Asset, "asset_trip/asset"
   autoload :Compressor, "asset_trip/compressor"
   autoload :Config, "asset_trip/config"
+  autoload :FileWriter, "asset_trip/file_writer"
   autoload :Helper, "asset_trip/helper"
   autoload :Javascript, "asset_trip/javascript"
   autoload :LoadPath, "asset_trip/load_path"
@@ -42,6 +43,10 @@ module AssetTrip
 
   def self.root
     Pathname.new(__FILE__).dirname.join("..").expand_path
+  end
+
+  def self.assets_path
+    app_root.join("public", "assets")
   end
 
   def self.config_path
