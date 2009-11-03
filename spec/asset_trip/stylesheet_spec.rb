@@ -1,6 +1,11 @@
 require "spec_helper"
 
 describe AssetTrip::Stylesheet do
+  describe "bundle!" do
+    it "writes a non-SSL stylesheet"
+    it "writes a SSL stylesheet"
+  end
+
   describe "#contents" do
     before do
       AssetTrip::Compressor.stub!(:new => compressor)
