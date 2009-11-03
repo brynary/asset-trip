@@ -133,7 +133,7 @@ describe AssetTrip::Helper do
     it "generates a link to the SSL version when necessary" do
       request.stub!(:ssl? => true)
 
-      AssetTrip.stub!(:manifest => AssetTrip::Manifest.new("foo.css" => "884695aafa07bf0c3e1f1fe578dd10d0"))
+      AssetTrip.stub!(:manifest => AssetTrip::Manifest.new("foo.ssl.css" => "884695aafa07bf0c3e1f1fe578dd10d0"))
       stylesheet_link_asset("foo").should be_like(<<-HTML)
         <link href="/assets/88/4695aafa0/foo.ssl.css" media="screen" rel="stylesheet" type="text/css" />
       HTML

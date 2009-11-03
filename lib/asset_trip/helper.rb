@@ -35,7 +35,7 @@ module AssetTrip
 
     def _stylesheets_for_source(source)
       if AssetTrip.bundle
-        _manifest_url(source, ".css")
+        _stylesheet_manifest_url(source)
       else
         _unbundled_stylesheet_urls(source)
       end
@@ -43,7 +43,7 @@ module AssetTrip
 
     def _javascripts_for_source(source)
       if AssetTrip.bundle
-        _manifest_url(source, ".js")
+        AssetTrip.manifest.path_for(_source_with_extension(source, ".js"))
       else
         _unbundled_javascript_urls(source)
       end
@@ -65,14 +65,10 @@ module AssetTrip
       end
     end
 
-    def _manifest_url(source, extension)
-      url = AssetTrip.manifest.path_for(_source_with_extension(source, extension))
-
-      if extension == ".css" && request.ssl?
-        url.gsub(/#{extension}$/, ".ssl#{extension}")
-      else
-        url
-      end
+    def _stylesheet_manifest_url(source)
+      source_with_extension = _source_with_extension(source, ".css")
+      source_with_extension.gsub!(/.css$/, ".ssl.css") if request.ssl?
+      AssetTrip.manifest.path_for(source_with_extension)
     end
 
     def _source_with_extension(source, extension)
