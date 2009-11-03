@@ -11,9 +11,8 @@ module AssetTrip
     end
 
     def paths
-      files.map do |f|
-        f += extension unless f.ends_with?(extension)
-        @config.resolve_file(asset_type, f)
+      files.map do |file|
+        @config.resolve_file(asset_type, file)
       end
     end
 
@@ -36,6 +35,7 @@ module AssetTrip
   private
 
     def include(name)
+      name += extension unless name.ends_with?(extension)
       files << name
     end
 
