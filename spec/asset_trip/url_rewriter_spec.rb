@@ -143,8 +143,5 @@ describe AssetTrip::UrlRewriter do
       CSS
       output.should include('url(/foo.jpg?123123123)')
     end
-
-    it "generates an SSL version of the file"
-    it "generates a non-SSL version of the file"
   end
 end
