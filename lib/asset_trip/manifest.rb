@@ -29,7 +29,7 @@ module AssetTrip
 
         md5sum = part1 + part2
 
-        if @md5sums[file.basename.to_s][0..10] != md5sum
+        if !@md5sums.has_key?(file.basename.to_s) || @md5sums[file.basename.to_s][0..10] != md5sum
           File.unlink(file)
         end
       end

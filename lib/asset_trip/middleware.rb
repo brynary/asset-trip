@@ -38,7 +38,7 @@ module AssetTrip
     def process
       return forbidden if path_info.include?("..")
 
-      if File.file?(path) && File.readable?(path)
+      if path.file? && path.readable?
         serve_file
       else
         not_found
