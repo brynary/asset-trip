@@ -16,7 +16,25 @@ describe AssetTrip::Compressor do
       compressor.compress("a { color: red }")
     end
 
-    it "returns the STDOUT from the java process"
+    it "sends the uncompressed contents via STDIN" do
+      stdin = stub(:close => nil)
+
+      POpen4.stub!(:popen4) do |command, block|
+        block.call(stub(:read => "STDOUT"), stub(:read => "STDERR"), stdin)
+        stub(:success? => true)
+      end
+
+      stdin.should_receive(:puts).with("a { color: red }")
+      compressor.compress("a { color: red }").should == "STDOUT"
+    end
+
+    it "returns the STDOUT from the java process" do
+      POpen4.stub!(:popen4) do |command, block|
+        block.call(stub(:read => "STDOUT"), stub(:read => "STDERR"), stub(:puts => nil, :close => nil))
+        stub(:success? => true)
+      end
+      compressor.compress("a { color: red }").should == "STDOUT"
+    end
 
     it "raises a CompressorError if the java process is not successful" do
       POpen4.stub!(:popen4 => stub(:success? => false))
