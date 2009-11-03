@@ -18,5 +18,6 @@ Spec::Runner.configure do |config|
   config.before do
     # TODO: Is there a better way to accomodate this concern?
     AssetTrip.instance_variable_set(:@config, nil)
+    AssetTrip.instance_variable_set(:@manifest, nil)
   end
 end

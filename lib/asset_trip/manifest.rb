@@ -22,6 +22,19 @@ module AssetTrip
       @md5sums[key]
     end
 
+    def prune!
+      AssetTrip.assets_path.glob("**", "*.*").each do |file|
+        part2 = file.dirname.split.last.to_s
+        part1 = file.dirname.split.first.split.last.to_s
+
+        md5sum = part1 + part2
+
+        if @md5sums[file.basename.to_s][0..10] != md5sum
+          File.unlink(file)
+        end
+      end
+    end
+
   end
 end
 

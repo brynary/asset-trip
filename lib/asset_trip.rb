@@ -30,6 +30,7 @@ module AssetTrip
   end
 
   def self.prune!
+    raise "No Manifest found" unless manifest
     manifest.prune!
   end
 
