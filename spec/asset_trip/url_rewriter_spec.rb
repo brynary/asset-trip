@@ -16,7 +16,7 @@ describe AssetTrip::UrlRewriter do
     it "rewrites URLs with SSL when configured with SSL" do
       ActionController::Base.stub!(:asset_host => "http://cdn.example.com")
 
-      output = AssetTrip::UrlRewriter.new(:ssl => true).rewrite <<-CSS
+      output = AssetTrip::UrlRewriter.new("https").rewrite <<-CSS
         .foo { background: url(/foo.jpg) }
       CSS
 
@@ -26,7 +26,7 @@ describe AssetTrip::UrlRewriter do
     it "rewrites URLs without SSL when configured without SSL" do
       ActionController::Base.stub!(:asset_host => "http://cdn.example.com")
 
-      output = AssetTrip::UrlRewriter.new(:ssl => false).rewrite <<-CSS
+      output = AssetTrip::UrlRewriter.new("http").rewrite <<-CSS
         .foo { background: url(/foo.jpg) }
       CSS
 

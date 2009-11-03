@@ -10,7 +10,7 @@ module AssetTrip
 
     def secure_contents
       contents = joined_contents
-      contents = UrlRewriter.new(:ssl => true).rewrite(contents)
+      contents = UrlRewriter.new("https").rewrite(contents)
       contents = Compressor.new("css").compress(contents)
       return contents
     end
