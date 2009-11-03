@@ -21,6 +21,12 @@ describe AssetTrip::Stylesheet do
       asset.contents.should == "compressed"
     end
 
-    it "rewrites the URLs"
+    it "rewrites the URLs" do
+      urlRewriter = AssetTrip::UrlRewriter.new
+      AssetTrip::UrlRewriter.stub(:new).and_return(urlRewriter)
+      urlRewriter.should_receive(:rewrite).with("")
+      asset = AssetTrip::Stylesheet.new(stub(), "all.css")
+      asset.contents
+    end
   end
 end

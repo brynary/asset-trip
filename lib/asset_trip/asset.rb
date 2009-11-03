@@ -26,7 +26,7 @@ module AssetTrip
     end
 
     def name
-      @asset_config.name
+      @config.name
     end
 
     def md5sum

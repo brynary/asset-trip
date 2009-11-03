@@ -53,7 +53,7 @@ module AssetTrip
       asset = AssetTrip.config.assets_hash[_source_with_extension(source, ".css")]
 
       asset.files.map do |file|
-        "http://#{request.host}/__asset_trip__/stylesheets/" + file
+        "#{request.protocol}#{request.host}/__asset_trip__/stylesheets/" + file
       end
     end
 
@@ -61,12 +61,17 @@ module AssetTrip
       asset = AssetTrip.config.assets_hash[_source_with_extension(source, ".js")]
 
       asset.files.map do |file|
-        "http://#{request.host}/__asset_trip__/javascripts/" + file
+        "#{request.protocol}#{request.host}/__asset_trip__/javascripts/" + file
       end
     end
 
     def _manifest_url(source, extension)
-      AssetTrip.manifest.path_for(_source_with_extension(source, extension))
+      url = AssetTrip.manifest.path_for(_source_with_extension(source, extension))
+      if request.ssl?
+        url.gsub!(/#{extension}$/, ".ssl#{extension}")
+      else
+        url
+      end
     end
 
     def _source_with_extension(source, extension)

@@ -13,6 +13,26 @@ describe AssetTrip::UrlRewriter do
       output.should include('url(http://cdn.example.com/foo.jpg)')
     end
 
+    it "rewrites URLs with SSL when configured with SSL" do
+      ActionController::Base.stub!(:asset_host => "http://cdn.example.com")
+
+      output = AssetTrip::UrlRewriter.new(:ssl => true).rewrite <<-CSS
+        .foo { background: url(/foo.jpg) }
+      CSS
+
+      output.should include('url(https://cdn.example.com/foo.jpg)')
+    end
+    
+    it "rewrites URLs without SSL when configured without SSL" do
+      ActionController::Base.stub!(:asset_host => "http://cdn.example.com")
+
+      output = AssetTrip::UrlRewriter.new(:ssl => false).rewrite <<-CSS
+        .foo { background: url(/foo.jpg) }
+      CSS
+
+      output.should include('url(http://cdn.example.com/foo.jpg)')
+    end
+
     it "adds the protocol to the host when necessary" do
       ActionController::Base.stub!(:asset_host => "cdn.example.com")
 

@@ -154,4 +154,21 @@ describe AssetTrip do
 
     asset("signup.css").should have_contents('url(http://cdn1.example.com/foo.jpg)')
   end
+  
+  it "rewrites URLs in CSS files to include HTTPs asset hosts" do
+    ActionController::Base.stub!(:asset_host => "http://cdn%d.example.com")
+
+    install_js_config <<-CONFIG
+      css_asset "signup" do
+        include "new"
+      end
+    CONFIG
+
+    write_stylesheet("new.css", <<-STYLESHEET)
+      .foo { background: url(/foo.jpg) }
+    STYLESHEET
+    bundle!
+
+    asset("signup.ssl.css").should have_contents('url(https://cdn1.example.com/foo.jpg)')
+  end
 end

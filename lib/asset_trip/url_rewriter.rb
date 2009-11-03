@@ -7,7 +7,8 @@ module AssetTrip
   class UrlRewriter
     include ActionView::Helpers::AssetTagHelper
 
-    def initialize
+    def initialize(opts = {})
+      @ssl = !opts[:ssl].nil? && opts[:ssl]
       # Used by Rails compute_asset_host method from ActionView::Helpers::AssetTagHelper
       @controller = OpenStruct.new(:request => ActionController::Request.new({}))
     end
@@ -40,7 +41,7 @@ module AssetTrip
 
       if (host = compute_asset_host(path)).present?
         opts[:host]   = strip_scheme(host)
-        opts[:scheme] = "http"
+        opts[:scheme] = @ssl ? "https" : "http"
       end
 
       return opts

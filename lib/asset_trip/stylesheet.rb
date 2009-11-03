@@ -8,11 +8,38 @@ module AssetTrip
       return contents
     end
 
+    def secure_contents
+      contents = joined_contents
+      contents = UrlRewriter.new(:ssl => true).rewrite(contents)
+      contents = Compressor.new("css").compress(contents)
+      return contents
+    end
+
     def name
       "#{@name}.css"
     end
+    
+    
+    def bundle!
+      super
+      secure_bundle!
+    end
+
+    def secure_bundle!
+      File.open(secure_path, "w") do |file|
+        file << secure_contents
+      end
+    end
 
   private
+  
+    def secure_name
+      "#{@name}.ssl.css"
+    end
+  
+    def secure_path
+      dir.join(secure_name)
+    end
 
     def load_path
       @config.css_load_path
