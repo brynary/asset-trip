@@ -1,7 +1,7 @@
 require "spec_helper"
 require "action_controller"
 
-describe AssetTrip do
+describe "rake asset_trip:bundle" do
   before do
     reset_filesystem!
     @old_pwd = Dir.pwd
