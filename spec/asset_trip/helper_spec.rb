@@ -128,7 +128,7 @@ describe AssetTrip::Helper do
       def request
         stub(:host => "localhost.com", :ssl? => true)
       end
-      
+
       AssetTrip.stub!(:manifest => AssetTrip::Manifest.new("foo.css" => "884695aafa07bf0c3e1f1fe578dd10d0"))
       stylesheet_link_asset("foo").should be_like(<<-HTML)
         <link href="/assets/88/4695aafa0/foo.ssl.css" media="screen" rel="stylesheet" type="text/css" />
@@ -170,12 +170,12 @@ describe AssetTrip::Helper do
         <link href="http://localhost.com/__asset_trip__/stylesheets/colors.css" media="screen" rel="stylesheet" type="text/css" />
       HTML
     end
-    
+
     context "when serving an https request" do
       def request
         stub(:host => "localhost.com", :ssl? => false, :protocol => "https://")
       end
-      
+
       it "generates ssl links to the unbundled Stylesheets" do
         AssetTrip.stub!(:bundle => false)
 
@@ -192,7 +192,7 @@ describe AssetTrip::Helper do
           <link href="https://localhost.com/__asset_trip__/stylesheets/colors.css" media="screen" rel="stylesheet" type="text/css" />
         HTML
       end
-      
+
       it "generates ssl links to the unbundled Javascripts" do
         def request
           stub(:host => "localhost.com", :ssl? => false, :protocol => "https://")

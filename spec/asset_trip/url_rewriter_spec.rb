@@ -22,7 +22,7 @@ describe AssetTrip::UrlRewriter do
 
       output.should include('url(https://cdn.example.com/foo.jpg)')
     end
-    
+
     it "rewrites URLs without SSL when configured without SSL" do
       ActionController::Base.stub!(:asset_host => "http://cdn.example.com")
 
