@@ -1,13 +1,6 @@
 module AssetTrip
   class Stylesheet < Asset
 
-    def contents
-      contents = joined_contents
-      contents = url_rewriter.rewrite(contents)
-      contents = Compressor.new("css").compress(contents)
-      return contents
-    end
-
     def name
       "#{@name}.css"
     end
@@ -17,6 +10,16 @@ module AssetTrip
     end
 
   private
+
+    def joined_contents
+      paths.map do |path|
+        url_rewriter.rewrite(File.read(path))
+      end.join("\n\n")
+    end
+
+    def compressor
+      Compressor.new("css")
+    end
 
     def url_rewriter
       UrlRewriter.new

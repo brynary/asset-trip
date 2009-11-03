@@ -1,17 +1,21 @@
 module AssetTrip
   class Javascript < Asset
 
-    def contents
-      contents = joined_contents
-      contents = Compressor.new("js").compress(contents)
-      return contents
-    end
-
     def name
       "#{@name}.js"
     end
 
   private
+
+    def joined_contents
+      paths.map do |path|
+        File.read(path)
+      end.join("\n\n")
+    end
+
+    def compressor
+      Compressor.new("js")
+    end
 
     def asset_type
       :javascripts

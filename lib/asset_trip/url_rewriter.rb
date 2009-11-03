@@ -33,7 +33,7 @@ module AssetTrip
     end
 
     def uri_components(path)
-      opts = { :path => path }
+      opts = { :path => rewrite_relative_path(path) }
 
       if (asset_id = rails_asset_id(path)).present?
         opts[:query] = asset_id
@@ -45,6 +45,30 @@ module AssetTrip
       end
 
       return opts
+    end
+
+    def rewrite_relative_path(path)
+      return path
+      # return relative_url if relative_url.first == "/" || relative_url.include?("://")
+      # 
+      # elements = File.join("/", File.dirname(source_filename)).split("/") + relative_url.split("/")
+      # 
+      # index = 0
+      # 
+      # while elements[index]
+      #   case elements[index]
+      #   when "."
+      #     elements.delete_at(index)
+      #   when ".."
+      #     next if index == 0
+      #     index -=1
+      #     2.times { elements.delete_at(index) }
+      #   else
+      #     index +=1
+      #   end
+      # end
+      # 
+      # elements.join("/")
     end
 
     def prepend_asset_host?(path)

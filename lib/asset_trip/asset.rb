@@ -14,6 +14,10 @@ module AssetTrip
       instance_eval(&block) if block_given?
     end
 
+    def contents
+      compressor.compress(joined_contents)
+    end
+
     def paths
       files.map do |file|
         @config.resolve_file(asset_type, file)
@@ -33,17 +37,6 @@ module AssetTrip
     def include(name)
       name += extension unless name.ends_with?(extension)
       files << name
-    end
-
-    def contents
-      joined_contents
-    end
-    memoize :contents
-
-    def joined_contents
-      paths.map do |path|
-        File.read(path)
-      end.join("\n\n")
     end
 
     def path
