@@ -13,7 +13,7 @@ module AssetTrip
 
     def joined_contents
       paths.map do |path|
-        url_rewriter.rewrite(File.read(path))
+        url_rewriter(path).rewrite(File.read(path))
       end.join("\n\n")
     end
 
@@ -21,8 +21,8 @@ module AssetTrip
       Compressor.new("css")
     end
 
-    def url_rewriter
-      UrlRewriter.new
+    def url_rewriter(path)
+      UrlRewriter.new("http", path)
     end
 
     def asset_type

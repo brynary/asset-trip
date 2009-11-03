@@ -6,7 +6,7 @@ describe AssetTrip::UrlRewriter do
     it "applies asset hosts to CSS background images" do
       ActionController::Base.stub!(:asset_host => "http://cdn.example.com")
 
-      output = AssetTrip::UrlRewriter.new.rewrite <<-CSS
+      output = AssetTrip::UrlRewriter.new("http").rewrite <<-CSS
         .foo { background: url(/foo.jpg) }
       CSS
 
@@ -36,7 +36,7 @@ describe AssetTrip::UrlRewriter do
     it "adds the protocol to the host when necessary" do
       ActionController::Base.stub!(:asset_host => "cdn.example.com")
 
-      output = AssetTrip::UrlRewriter.new.rewrite <<-CSS
+      output = AssetTrip::UrlRewriter.new("http").rewrite <<-CSS
         .foo { background: url(/foo.jpg) }
       CSS
 
@@ -46,7 +46,7 @@ describe AssetTrip::UrlRewriter do
     it "replaces %d with a number in the asset host" do
       ActionController::Base.stub!(:asset_host => "http://cdn%d.example.com")
 
-      output = AssetTrip::UrlRewriter.new.rewrite <<-CSS
+      output = AssetTrip::UrlRewriter.new("http").rewrite <<-CSS
         .foo { background: url(/foo.jpg) }
       CSS
 
@@ -56,7 +56,7 @@ describe AssetTrip::UrlRewriter do
     it "doesn't modify background-image paths pointing to other servers" do
       ActionController::Base.stub!(:asset_host => "http://cdn.example.com")
 
-      output = AssetTrip::UrlRewriter.new.rewrite <<-CSS
+      output = AssetTrip::UrlRewriter.new("http").rewrite <<-CSS
         .foo { background: url(http://google.com/foo.jpg) }
       CSS
 
@@ -66,7 +66,7 @@ describe AssetTrip::UrlRewriter do
     it "disregards leading and trailing whitespace and quotes" do
       ActionController::Base.stub!(:asset_host => "http://cdn.example.com")
 
-      output = AssetTrip::UrlRewriter.new.rewrite <<-CSS
+      output = AssetTrip::UrlRewriter.new("http").rewrite <<-CSS
         .foo1 { background: url(  '/foo1.jpg'  ) }
         .foo2 { background: url(  "/foo2.jpg"  ) }
       CSS
@@ -78,7 +78,7 @@ describe AssetTrip::UrlRewriter do
     it "doesn't modify paths for .htc files" do
       ActionController::Base.stub!(:asset_host => "http://cdn.example.com")
 
-      output = AssetTrip::UrlRewriter.new.rewrite <<-CSS
+      output = AssetTrip::UrlRewriter.new("http").rewrite <<-CSS
         .foo { background: url(/foo.htc) }
       CSS
 
@@ -91,7 +91,7 @@ describe AssetTrip::UrlRewriter do
         "http://cdn.example.com"
       })
 
-      output = AssetTrip::UrlRewriter.new.rewrite <<-CSS
+      output = AssetTrip::UrlRewriter.new("http").rewrite <<-CSS
         .foo { background: url(/foo.jpg) }
       CSS
 
@@ -105,7 +105,7 @@ describe AssetTrip::UrlRewriter do
         "http://cdn.example.com"
       })
 
-      output = AssetTrip::UrlRewriter.new.rewrite <<-CSS
+      output = AssetTrip::UrlRewriter.new("http").rewrite <<-CSS
         .foo { background: url(/foo.jpg) }
       CSS
 
@@ -115,7 +115,7 @@ describe AssetTrip::UrlRewriter do
     it "works with no asset host" do
       ActionController::Base.stub!(:asset_host => nil)
 
-      output = AssetTrip::UrlRewriter.new.rewrite <<-CSS
+      output = AssetTrip::UrlRewriter.new("http").rewrite <<-CSS
         .foo { background: url(/foo.jpg) }
       CSS
 
@@ -125,7 +125,7 @@ describe AssetTrip::UrlRewriter do
     it "does not modify relative paths" do
       ActionController::Base.stub!(:asset_host => "http://cdn.example.com")
 
-      output = AssetTrip::UrlRewriter.new.rewrite <<-CSS
+      output = AssetTrip::UrlRewriter.new("http").rewrite <<-CSS
         .foo { background: url(../foo.jpg) }
         .bar { background: url(./bar.jpg) }
       CSS
@@ -135,7 +135,7 @@ describe AssetTrip::UrlRewriter do
     end
 
     it "includes the file mtime for background images in the query string" do
-      rewriter = AssetTrip::UrlRewriter.new
+      rewriter = AssetTrip::UrlRewriter.new("http")
       rewriter.stub!(:rails_asset_id => "123123123")
 
       output = rewriter.rewrite <<-CSS

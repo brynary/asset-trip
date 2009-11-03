@@ -22,7 +22,7 @@ describe AssetTrip::Stylesheet do
     end
 
     it "rewrites the URLs" do
-      urlRewriter = AssetTrip::UrlRewriter.new
+      urlRewriter = AssetTrip::UrlRewriter.new("http")
       AssetTrip::UrlRewriter.stub(:new).and_return(urlRewriter)
       urlRewriter.should_receive(:rewrite).with("contents")
       asset = AssetTrip::Stylesheet.new(stub(:resolve_file => "fonts.css"), "all.css", [Pathname.new("fonts.css")])

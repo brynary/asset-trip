@@ -7,8 +7,9 @@ module AssetTrip
   class UrlRewriter
     include ActionView::Helpers::AssetTagHelper
 
-    def initialize(scheme = "http")
+    def initialize(scheme, path = nil)
       @scheme = scheme
+      @path = nil
 
       # Used by Rails compute_asset_host method from ActionView::Helpers::AssetTagHelper
       @controller = OpenStruct.new(:request => ActionController::Request.new({}))
@@ -50,11 +51,11 @@ module AssetTrip
     def rewrite_relative_path(path)
       return path
       # return relative_url if relative_url.first == "/" || relative_url.include?("://")
-      # 
+      #
       # elements = File.join("/", File.dirname(source_filename)).split("/") + relative_url.split("/")
-      # 
+      #
       # index = 0
-      # 
+      #
       # while elements[index]
       #   case elements[index]
       #   when "."
@@ -67,7 +68,7 @@ module AssetTrip
       #     index +=1
       #   end
       # end
-      # 
+      #
       # elements.join("/")
     end
 

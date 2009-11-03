@@ -7,8 +7,8 @@ module AssetTrip
 
   private
 
-    def url_rewriter
-      UrlRewriter.new("https")
+    def url_rewriter(path)
+      UrlRewriter.new("https", path)
     end
 
   end
