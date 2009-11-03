@@ -17,7 +17,7 @@ describe "rake asset_trip:bundle" do
       js_asset "signup" do
       end
     CONFIG
-    bundle!
+    AssetTrip.bundle!
     fixture_app.should have_asset("signup.js")
   end
 
@@ -28,7 +28,7 @@ describe "rake asset_trip:bundle" do
         include "signup"
       end
     CONFIG
-    bundle!
+    AssetTrip.bundle!
     asset("signup.js").should have_contents('alert("main")')
     asset("signup.js").should have_contents('alert("signup")')
   end
@@ -39,8 +39,8 @@ describe "rake asset_trip:bundle" do
         include "main.js"
       end
     CONFIG
-    bundle!
-    bundle!
+    AssetTrip.bundle!
+    AssetTrip.bundle!
     assets("signup.js").should have(1).item
   end
 
@@ -50,10 +50,10 @@ describe "rake asset_trip:bundle" do
         include "main.js"
       end
     CONFIG
-    bundle!
+    AssetTrip.bundle!
     AssetTrip.instance_variable_set(:@config, nil)
     write_javascript("main.js", 'alert("new.main");')
-    bundle!
+    AssetTrip.bundle!
     assets("signup.js").should have(2).items
   end
 
@@ -63,7 +63,7 @@ describe "rake asset_trip:bundle" do
         include "main.js"
       end
     CONFIG
-    bundle!
+    AssetTrip.bundle!
 
     directory = assets_path.glob("*").map { |f| File.basename(f) }.first
     directory.size.should == 2
@@ -75,7 +75,7 @@ describe "rake asset_trip:bundle" do
         include "main.js"
       end
     CONFIG
-    bundle!
+    AssetTrip.bundle!
 
     File.read(fixture_app.join("config", "asset_trip", "manifest.rb")).should be_like(<<-RUBY)
       module AssetTrip
@@ -99,7 +99,7 @@ describe "rake asset_trip:bundle" do
         return long_var_name + 1;
       }
     JAVASCRIPT
-    bundle!
+    AssetTrip.bundle!
 
     asset("signup.js").should_not have_contents('Comment')
     asset("signup.js").should have_contents('return a+1')
@@ -118,7 +118,7 @@ describe "rake asset_trip:bundle" do
         font-weight: bold;
       }
     STYLESHEET
-    bundle!
+    AssetTrip.bundle!
 
     asset("signup.css").should_not have_contents('Comment')
     asset("signup.css").should have_contents('.foo{font-weight:bold;}')
@@ -133,7 +133,7 @@ describe "rake asset_trip:bundle" do
     write_javascript("main.js", "!@$%&*")
 
     lambda {
-      bundle!
+      AssetTrip.bundle!
     }.should raise_error(AssetTrip::CompressorError)
   end
 
@@ -150,7 +150,7 @@ describe "rake asset_trip:bundle" do
     write_stylesheet("new.css", <<-STYLESHEET)
       .foo { background: url(/foo.jpg) }
     STYLESHEET
-    bundle!
+    AssetTrip.bundle!
 
     asset("signup.css").should have_contents('url(http://cdn1.example.com/foo.jpg)')
   end
@@ -167,7 +167,7 @@ describe "rake asset_trip:bundle" do
     write_stylesheet("new.css", <<-STYLESHEET)
       .foo { background: url(/foo.jpg) }
     STYLESHEET
-    bundle!
+    AssetTrip.bundle!
 
     asset("signup.ssl.css").should have_contents('url(https://cdn1.example.com/foo.jpg)')
   end

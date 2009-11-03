@@ -21,10 +21,6 @@ module AssetTrip
         end
       end
 
-      def bundle!
-        AssetTrip.bundle!
-      end
-
     end
   end
 end
