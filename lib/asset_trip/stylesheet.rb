@@ -18,8 +18,8 @@ module AssetTrip
     def name
       "#{@name}.css"
     end
-    
-    
+
+
     def bundle!
       super
       secure_bundle!
@@ -32,11 +32,11 @@ module AssetTrip
     end
 
   private
-  
+
     def secure_name
       "#{@name}.ssl.css"
     end
-  
+
     def secure_path
       dir.join(secure_name)
     end
@@ -48,6 +48,6 @@ module AssetTrip
     def extension
       ".css"
     end
-      
+
   end
 end

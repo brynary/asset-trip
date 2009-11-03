@@ -9,6 +9,7 @@ module AssetTrip
 
     def initialize(opts = {})
       @ssl = !opts[:ssl].nil? && opts[:ssl]
+
       # Used by Rails compute_asset_host method from ActionView::Helpers::AssetTagHelper
       @controller = OpenStruct.new(:request => ActionController::Request.new({}))
     end
@@ -24,7 +25,7 @@ module AssetTrip
 
     def add_asset_host_to_path(path)
       strip_quotes!(path)
-      
+
       if prepend_asset_host?(path)
         URI::Generic.build(uri_components(path)).to_s
       else
