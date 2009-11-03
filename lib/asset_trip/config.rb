@@ -13,8 +13,8 @@ module AssetTrip
 
     def initialize(&block)
       @load_paths = Hash.new { LoadPath.new }
-      @load_paths[:javascripts] = LoadPath.new([Pathname.new("app/javascripts")])
-      @load_paths[:stylesheets] = LoadPath.new([Pathname.new("app/stylesheets")])
+      @load_paths[:javascripts] = LoadPath.new(["app/javascripts"])
+      @load_paths[:stylesheets] = LoadPath.new(["app/stylesheets"])
 
       @assets_hash = {}
       instance_eval(&block)

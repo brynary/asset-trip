@@ -4,7 +4,7 @@ module AssetTrip
     attr_reader :paths
 
     def initialize(paths = [])
-      @paths = paths
+      @paths = paths.map { |path| Pathname.new(path) }
     end
 
     def ==(other)
