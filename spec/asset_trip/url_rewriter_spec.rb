@@ -6,7 +6,7 @@ describe AssetTrip::UrlRewriter do
     original = mappings.keys.first
     result = mappings.values.first
 
-    it "maps #{original} to #{result}" do
+    it "rewriters #{original} to #{result} in #{path}" do
       output = AssetTrip::UrlRewriter.new("http", Pathname.new(path)).rewrite <<-CSS
         .foo { background: url(#{original}) }
       CSS
