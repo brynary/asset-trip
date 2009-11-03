@@ -25,10 +25,6 @@ module AssetTrip
       end
     end
 
-    def name
-      @config.name
-    end
-
     def md5sum
       @md5sum ||= Digest::MD5.hexdigest(contents)
     end
