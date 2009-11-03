@@ -19,7 +19,6 @@ module AssetTrip
       "#{@name}.css"
     end
 
-
     def bundle!
       super
       secure_bundle!
