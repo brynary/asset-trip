@@ -25,7 +25,9 @@ module AssetTrip
     end
 
     def bundle!
-      FileWriter.new(path).write!(contents)
+      if ENV["FORCE"] || expired?
+        FileWriter.new(path).write!(contents)
+      end
     end
 
     def md5sum
@@ -33,6 +35,30 @@ module AssetTrip
     end
 
   private
+
+    def expired?
+      packaged_files.empty? || generated_at <= last_change_at
+    end
+
+    def generated_at
+      packaged_file_mtimes.last
+    end
+
+    def packaged_file_mtimes
+      @packaged_file_mtimes ||= packaged_files.map { |path| File.mtime(path) }.sort
+    end
+
+    def packaged_files
+      Dir[AssetTrip.assets_path.join("**", name)]
+    end
+
+    def last_change_at
+      mtimes.last
+    end
+
+    def mtimes
+      @mtimes ||= paths.map { |path| File.mtime(path) }.sort
+    end
 
     def include(name)
       name += extension unless name.ends_with?(extension)
