@@ -9,7 +9,7 @@ module AssetTrip
 
     def initialize(scheme, path = nil)
       @scheme = scheme
-      @path = nil
+      @path = path
 
       # Used by Rails compute_asset_host method from ActionView::Helpers::AssetTagHelper
       @controller = OpenStruct.new(:request => ActionController::Request.new({}))
@@ -27,6 +27,7 @@ module AssetTrip
       strip_quotes!(path)
 
       if prepend_asset_host?(path)
+        path = rewrite_relative_path(path) unless @path.blank?
         URI::Generic.build(uri_components(path)).to_s
       else
         path
@@ -34,7 +35,7 @@ module AssetTrip
     end
 
     def uri_components(path)
-      opts = { :path => rewrite_relative_path(path) }
+      opts = { :path => path }
 
       if (asset_id = rails_asset_id(path)).present?
         opts[:query] = asset_id
@@ -48,34 +49,17 @@ module AssetTrip
       return opts
     end
 
-    def rewrite_relative_path(path)
-      return path
-      # return relative_url if relative_url.first == "/" || relative_url.include?("://")
-      #
-      # elements = File.join("/", File.dirname(source_filename)).split("/") + relative_url.split("/")
-      #
-      # index = 0
-      #
-      # while elements[index]
-      #   case elements[index]
-      #   when "."
-      #     elements.delete_at(index)
-      #   when ".."
-      #     next if index == 0
-      #     index -=1
-      #     2.times { elements.delete_at(index) }
-      #   else
-      #     index +=1
-      #   end
-      # end
-      #
-      # elements.join("/")
+    def rewrite_relative_path(relative_url)
+      if relative_url.starts_with?("/")
+        return relative_url
+      else
+        Pathname.new(File.join(@path.dirname, relative_url)).cleanpath
+      end
     end
 
     def prepend_asset_host?(path)
       uri = URI.parse(path)
 
-      uri.path.starts_with?('/') &&
       uri.relative? &&
       File.extname(uri.path) != '.htc'
     end

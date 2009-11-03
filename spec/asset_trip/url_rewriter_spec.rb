@@ -2,6 +2,19 @@ require "spec_helper"
 require "action_controller"
 
 describe AssetTrip::UrlRewriter do
+  def self.it_rewrites_urls(path, mappings)
+    original = mappings.keys.first
+    result = mappings.values.first
+
+    it "maps #{original} to #{result}" do
+      output = AssetTrip::UrlRewriter.new("http", Pathname.new(path)).rewrite <<-CSS
+        .foo { background: url(#{original}) }
+      CSS
+
+      output.should include("url(#{result})")
+    end
+  end
+
   describe "#rewrite" do
     it "applies asset hosts to CSS background images" do
       ActionController::Base.stub!(:asset_host => "http://cdn.example.com")
@@ -122,18 +135,6 @@ describe AssetTrip::UrlRewriter do
       output.should include('url(/foo.jpg)')
     end
 
-    it "does not modify relative paths" do
-      ActionController::Base.stub!(:asset_host => "http://cdn.example.com")
-
-      output = AssetTrip::UrlRewriter.new("http").rewrite <<-CSS
-        .foo { background: url(../foo.jpg) }
-        .bar { background: url(./bar.jpg) }
-      CSS
-
-      output.should include('url(../foo.jpg)')
-      output.should include('url(./bar.jpg)')
-    end
-
     it "includes the file mtime for background images in the query string" do
       rewriter = AssetTrip::UrlRewriter.new("http")
       rewriter.stub!(:rails_asset_id => "123123123")
@@ -143,5 +144,23 @@ describe AssetTrip::UrlRewriter do
       CSS
       output.should include('url(/foo.jpg?123123123)')
     end
+
+    it_rewrites_urls("/stylesheets/active_scaffold/default/stylesheet.css",
+      "../../../images/./../images/goober/../spinner.gif" => "/images/spinner.gif")
+
+    it_rewrites_urls("/stylesheets/active_scaffold/default/stylesheet.css",
+      "../../../images/spinner.gif" => "/images/spinner.gif")
+
+    it_rewrites_urls("/stylesheets/active_scaffold/default/./stylesheet.css",
+      "../../../images/spinner.gif" => "/images/spinner.gif")
+
+    it_rewrites_urls("/stylesheets/main.css",
+      "image.gif" => "/stylesheets/image.gif")
+
+    it_rewrites_urls("/stylesheets////default/main.css",
+      "..//image.gif" => "/stylesheets/image.gif")
+
+    it_rewrites_urls("/stylesheets/default/main.css",
+      "/images/image.gif" => "/images/image.gif")
   end
 end
