@@ -49,5 +49,12 @@ module AssetTrip
       @assets_hash[ssl_asset.name] = ssl_asset
     end
 
+    def load(filename)
+      dirname   = File.dirname(filename.to_s)
+      filename  = File.basename(filename.to_s, ".rb") + ".rb"
+      source    = File.read(AssetTrip.app_root.join(dirname, filename))
+      instance_eval(source)
+    end
+
   end
 end

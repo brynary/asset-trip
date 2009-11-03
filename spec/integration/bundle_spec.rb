@@ -26,6 +26,18 @@ describe "rake asset_trip:bundle" do
       fixture_app.should have_asset("signup.js")
     end
 
+    it "supports loading additional config files" do
+      install_js_config(<<-CONFIG, "assets.rb")
+        load "config/asset_trip/more_assets"
+      CONFIG
+      install_js_config(<<-CONFIG, "more_assets.rb")
+        js_asset "signup" do
+        end
+      CONFIG
+      AssetTrip.bundle!
+      fixture_app.should have_asset("signup.js")
+    end
+
     it "concatenates the files into an Asset" do
       install_js_config <<-CONFIG
         js_asset "signup" do
