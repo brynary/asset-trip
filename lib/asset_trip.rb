@@ -29,6 +29,10 @@ module AssetTrip
     config.bundle!
   end
 
+  def self.prune!
+    manifest.prune!
+  end
+
   def self.config
     @config ||= Config.from_file(config_path)
   end

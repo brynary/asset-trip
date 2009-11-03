@@ -44,10 +44,4 @@ describe AssetTrip::Asset do
       asset.md5sum.should == "237c43254a0799392cac71f795d9250e"
     end
   end
-
-  class DummyCompressor
-    def compress(contents)
-      return contents
-    end
-  end
 end

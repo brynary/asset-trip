@@ -11,7 +11,10 @@ describe "rake asset_trip:prune" do
     Dir.chdir(@old_pwd)
   end
 
-  xit "removes assets not in the current Manifest" do
+  it "raises an error if there is no Manifest"
+
+  it "removes assets not in the current Manifest" do
+    pending
     install_js_config <<-CONFIG
       js_asset "signup" do
         include "main.js"
@@ -21,7 +24,6 @@ describe "rake asset_trip:prune" do
     AssetTrip.instance_variable_set(:@config, nil)
     write_javascript("main.js", 'alert("new.main");')
     AssetTrip.bundle!
-    assets("signup.js").should have(2).items
     AssetTrip.prune!
     assets("signup.js").should have(1).item
   end
