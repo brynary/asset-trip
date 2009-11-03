@@ -63,6 +63,14 @@ describe AssetTrip::Helper do
       stub!(:rails_asset_id => "rails_asset_id")
       javascript_include_tag("foo").should include("rails_asset_id")
     end
+
+    it "works" do
+      request.stub!(:ssl? => true)
+      AssetTrip.stub!(:manifest => AssetTrip::Manifest.new("foo.js" => "884695aafa07bf0c3e1f1fe578dd10d0"))
+      javascript_include_asset("foo").should be_like(<<-HTML)
+        <script src="/assets/88/4695aafa0/foo.js" type="text/javascript"></script>
+      HTML
+    end
   end
 
   describe "#stylesheet_link_asset" do

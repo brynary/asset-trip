@@ -67,8 +67,9 @@ module AssetTrip
 
     def _manifest_url(source, extension)
       url = AssetTrip.manifest.path_for(_source_with_extension(source, extension))
-      if request.ssl?
-        url.gsub!(/#{extension}$/, ".ssl#{extension}")
+
+      if extension == ".css" && request.ssl?
+        url.gsub(/#{extension}$/, ".ssl#{extension}")
       else
         url
       end
