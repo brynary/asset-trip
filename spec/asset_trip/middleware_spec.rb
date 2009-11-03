@@ -67,13 +67,13 @@ describe AssetTrip::Middleware do
   end
 
   it "serves Javascripts based on the JS load path" do
-    AssetTrip.config.stub!(:js_load_path => AssetTrip::LoadPath.new)
+    AssetTrip.config.load_paths[:javascripts] = AssetTrip::LoadPath.new
     response = get "/__asset_trip__/javascripts/main.js"
     response.should be_not_found
   end
 
   it "serves Stylesheets based on the CSS load path" do
-    AssetTrip.config.stub!(:css_load_path => AssetTrip::LoadPath.new)
+    AssetTrip.config.load_paths[:stylesheets] = AssetTrip::LoadPath.new
     response = get "/__asset_trip__/stylesheets/new.css"
     response.should be_not_found
   end

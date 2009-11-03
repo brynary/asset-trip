@@ -15,10 +15,9 @@ module AssetTrip
     end
 
     def rewrite(contents)
-      contents.gsub!(/url *\(([^\)]+)\)/) do
+      contents.gsub(/url *\(([^\)]+)\)/) do
         "url(#{add_asset_host_to_path($1)})"
       end
-      contents
     end
 
   private

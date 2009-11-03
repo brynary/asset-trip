@@ -13,8 +13,8 @@ module AssetTrip
 
   private
 
-    def load_path
-      @config.js_load_path
+    def asset_type
+      :javascripts
     end
 
     def extension

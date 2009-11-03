@@ -33,16 +33,16 @@ module AssetTrip
 
   private
 
+    def asset_type
+      :stylesheets
+    end
+
     def secure_name
       "#{@name}.ssl.css"
     end
 
     def secure_path
       dir.join(secure_name)
-    end
-
-    def load_path
-      @config.css_load_path
     end
 
     def extension

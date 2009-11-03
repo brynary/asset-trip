@@ -13,7 +13,7 @@ module AssetTrip
     def paths
       files.map do |f|
         f += extension unless f.ends_with?(extension)
-        load_path.resolve(f)
+        @config.resolve_file(asset_type, f)
       end
     end
 

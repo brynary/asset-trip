@@ -52,7 +52,7 @@ module AssetTrip
     end
 
     def path
-      @path ||= load_path.resolve(filename)
+      @path ||= AssetTrip.config.resolve_file(asset_type.to_sym, filename)
     end
 
     def filename
@@ -65,16 +65,6 @@ module AssetTrip
 
     def asset_type
       path_parts[2]
-    end
-
-    def load_path
-      if asset_type == "javascripts"
-        AssetTrip.config.js_load_path
-      elsif asset_type == "stylesheets"
-        AssetTrip.config.css_load_path
-      else
-        AssetTrip::LoadPath.new
-      end
     end
 
     def path_parts

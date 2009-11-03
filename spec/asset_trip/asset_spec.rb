@@ -25,16 +25,14 @@ describe AssetTrip::Asset do
     end
 
     it "calculates the MD5 for one file" do
-      load_path = stub(:resolve => "foo")
-      asset = AssetTrip::Javascript.new(stub(:js_load_path => load_path), "asset") do
+      asset = AssetTrip::Javascript.new(stub(:resolve_file => "foo"), "asset") do
         include "foo"
       end
       asset.md5sum.should == "98bf7d8c15784f0a3d63204441e1e2aa"
     end
 
     it "calculates the MD5 for multiple file" do
-      load_path = stub(:resolve => "foo")
-      asset = AssetTrip::Javascript.new(stub(:js_load_path => load_path), "asset") do
+      asset = AssetTrip::Javascript.new(stub(:resolve_file => "foo"), "asset") do
         include "foo"
         include "bar"
       end
