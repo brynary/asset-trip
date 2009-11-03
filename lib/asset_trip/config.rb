@@ -50,6 +50,9 @@ module AssetTrip
     def css_asset(name, &block)
       asset = Stylesheet.new(self, name, &block)
       @assets_hash[asset.name] = asset
+
+      ssl_asset = asset.ssl_stylesheet
+      @assets_hash[ssl_asset.name] = ssl_asset
     end
 
   end

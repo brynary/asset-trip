@@ -12,19 +12,14 @@ module AssetTrip
       "#{@name}.css"
     end
 
-    def bundle!
-      super
-      ssl_stylesheet.bundle!
+    def ssl_stylesheet
+      SSLStylesheet.new(@config, @name, @files)
     end
 
   private
 
     def url_rewriter
       UrlRewriter.new
-    end
-
-    def ssl_stylesheet
-      SSLStylesheet.new(@config, @name, @files)
     end
 
     def asset_type
