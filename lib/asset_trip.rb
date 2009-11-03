@@ -11,6 +11,7 @@ module AssetTrip
   autoload :ManifestWriter, "asset_trip/manifest_writer"
   autoload :Middleware, "asset_trip/middleware"
   autoload :Memoizable, "asset_trip/memoizable"
+  autoload :SSLStylesheet, "asset_trip/ssl_stylesheet"
   autoload :Stylesheet, "asset_trip/stylesheet"
   autoload :UrlRewriter, "asset_trip/url_rewriter"
 

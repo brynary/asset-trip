@@ -4,9 +4,13 @@ module AssetTrip
   class Asset
     extend Memoizable
 
-    def initialize(config, name, &block)
+    attr_reader :files
+
+    def initialize(config, name, files = [], &block)
       @config = config
       @name = name
+      @files = files
+
       instance_eval(&block) if block_given?
     end
 
@@ -26,10 +30,6 @@ module AssetTrip
 
     def md5sum
       @md5sum ||= Digest::MD5.hexdigest(contents)
-    end
-
-    def files
-      @files ||= []
     end
 
   private
