@@ -12,7 +12,7 @@ describe AssetTrip::Helper do
     @controller = nil
   end
 
-  let(:request) { stub(:host => "localhost.com", :ssl? => false, :protocol => "http://") }
+  let(:request) { stub(:host => "localhost.com", :ssl? => false, :protocol => "http://", :port => 80) }
 
   describe "#javascript_include_asset" do
     it "generates a <script> tag based on the Manifest" do
@@ -153,8 +153,8 @@ describe AssetTrip::Helper do
       AssetTrip.stub!(:config => config)
 
       javascript_include_asset("foo").should be_like(<<-HTML)
-        <script src="http://localhost.com/__asset_trip__/javascripts/first.js" type="text/javascript"></script>
-        <script src="http://localhost.com/__asset_trip__/javascripts/second.js" type="text/javascript"></script>
+        <script src="http://localhost.com:80/__asset_trip__/javascripts/first.js" type="text/javascript"></script>
+        <script src="http://localhost.com:80/__asset_trip__/javascripts/second.js" type="text/javascript"></script>
       HTML
     end
 
@@ -170,8 +170,8 @@ describe AssetTrip::Helper do
       AssetTrip.stub!(:config => config)
 
       stylesheet_link_asset("all").should be_like(<<-HTML)
-        <link href="http://localhost.com/__asset_trip__/stylesheets/fonts.css" media="screen" rel="stylesheet" type="text/css" />
-        <link href="http://localhost.com/__asset_trip__/stylesheets/colors.css" media="screen" rel="stylesheet" type="text/css" />
+        <link href="http://localhost.com:80/__asset_trip__/stylesheets/fonts.css" media="screen" rel="stylesheet" type="text/css" />
+        <link href="http://localhost.com:80/__asset_trip__/stylesheets/colors.css" media="screen" rel="stylesheet" type="text/css" />
       HTML
     end
 
@@ -192,8 +192,8 @@ describe AssetTrip::Helper do
         AssetTrip.stub!(:config => config)
 
         stylesheet_link_asset("all").should be_like(<<-HTML)
-          <link href="https://localhost.com/__asset_trip__/stylesheets/fonts.css" media="screen" rel="stylesheet" type="text/css" />
-          <link href="https://localhost.com/__asset_trip__/stylesheets/colors.css" media="screen" rel="stylesheet" type="text/css" />
+          <link href="https://localhost.com:80/__asset_trip__/stylesheets/fonts.css" media="screen" rel="stylesheet" type="text/css" />
+          <link href="https://localhost.com:80/__asset_trip__/stylesheets/colors.css" media="screen" rel="stylesheet" type="text/css" />
         HTML
       end
 
@@ -209,8 +209,8 @@ describe AssetTrip::Helper do
         AssetTrip.stub!(:config => config)
 
         javascript_include_asset("foo").should be_like(<<-HTML)
-          <script src="https://localhost.com/__asset_trip__/javascripts/first.js" type="text/javascript"></script>
-          <script src="https://localhost.com/__asset_trip__/javascripts/second.js" type="text/javascript"></script>
+          <script src="https://localhost.com:80/__asset_trip__/javascripts/first.js" type="text/javascript"></script>
+          <script src="https://localhost.com:80/__asset_trip__/javascripts/second.js" type="text/javascript"></script>
         HTML
       end
 

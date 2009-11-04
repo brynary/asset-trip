@@ -127,6 +127,30 @@ describe "rake asset_trip:bundle" do
 
       asset("signup.ssl.css").should have_contents('url(https://cdn1.example.com/foo.jpg)')
     end
+    
+    it "respects the asset proc" do
+      asset_proc = Proc.new { |source, request|
+        if request.ssl?
+          "https://assets.example.com"
+        else
+          "https://cdn.example.com"
+        end
+      }
+      ActionController::Base.stub!(:asset_host => asset_proc)
+      install_js_config <<-CONFIG
+        css_asset "signup" do
+          include "new"
+        end
+      CONFIG
+
+      write_stylesheet("new.css", <<-STYLESHEET)
+        .foo { background: url(/foo.jpg) }
+      STYLESHEET
+      AssetTrip.bundle!
+
+      asset("signup.ssl.css").should have_contents('url(https://assets.example.com/foo.jpg)')
+    end
+    
   end
 
   it "minifies JavaScript using the YUI Compressor" do
