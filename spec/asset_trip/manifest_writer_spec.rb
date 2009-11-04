@@ -23,7 +23,7 @@ end
 
     it "stores the MD5 of each asset as the value in the hash" do
       file_writer = stub
-      file_writer.should_receive(:write!).with(/@manifest\["foo.js"\] = "fa9bac2ae2d19ec2942a718253c55862"/)
+      file_writer.should_receive(:write!).with(/@manifest\["foo.js"\] = "fa9bac2ae2d"/)
       AssetTrip::FileWriter.stub!(:new => file_writer)
       manifest_writer = AssetTrip::ManifestWriter.new([stub(:asset, :name => "foo.js", :md5sum => "fa9bac2ae2d19ec2942a718253c55862")])
       manifest_writer.write!

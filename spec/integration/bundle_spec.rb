@@ -97,7 +97,7 @@ describe "rake asset_trip:bundle" do
       File.read(fixture_app.join("config", "asset_trip", "manifest.rb")).should be_like(<<-RUBY)
         module AssetTrip
           @manifest = Manifest.new
-          @manifest["signup.js"] = "7d6db1efb9e6b58620939540ae067c7b"
+          @manifest["signup.js"] = "7d6db1efb9e"
         end
       RUBY
     end
