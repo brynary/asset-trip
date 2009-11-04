@@ -27,6 +27,9 @@ module AssetTrip
     def bundle!
       if ENV["FORCE"] || expired?
         FileWriter.new(path).write!(contents)
+      else
+        last_package = packaged_files.sort_by { |path| File.mtime(path) }.last
+        @md5sum = File.dirname(last_package).last(12).gsub(/\//, '')
       end
     end
 
