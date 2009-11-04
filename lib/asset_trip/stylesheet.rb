@@ -21,8 +21,15 @@ module AssetTrip
       Compressor.new("css")
     end
 
-    def url_rewriter(path)
-      UrlRewriter.new("http", path)
+    def url_rewriter(filesystem_path)
+      public_path = AssetTrip.app_root.join("public")
+
+      if filesystem_path.to_s.starts_with?(public_path)
+        foo = Pathname.new("/").join(filesystem_path.relative_path_from(public_path))
+        UrlRewriter.new("http", foo)
+      else
+        UrlRewriter.new("http")
+      end
     end
 
     def asset_type

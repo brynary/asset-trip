@@ -14,6 +14,7 @@ Spec::Runner.configure do |config|
   config.include AssetTrip::Spec::Helpers
   config.include AssetTrip::Spec::Matchers
   config.include AssetTrip::Spec::PathUtils
+  config.extend  AssetTrip::Spec::SandboxHelper
 
   config.before do
     # TODO: Is there a better way to accomodate this concern?

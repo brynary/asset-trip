@@ -1,15 +1,10 @@
 require "spec_helper"
 
 describe "rake asset_trip:prune" do
+  setup_sandbox_app!(:each)
+
   before do
     AssetTrip::Compressor.stub!(:new => DummyCompressor.new)
-    reset_filesystem!
-    @old_pwd = Dir.pwd
-    Dir.chdir(fixture_app)
-  end
-
-  after do
-    Dir.chdir(@old_pwd)
   end
 
   it "raises an error if there is no Manifest" do

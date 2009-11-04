@@ -2,15 +2,7 @@ require "spec_helper"
 
 describe AssetTrip::Config do
   # TODO: it would be great to avoid needing this for these specs
-  before(:all) do
-    reset_filesystem!
-    @old_pwd = Dir.pwd
-    Dir.chdir(fixture_app)
-  end
-
-  after(:all) do
-    Dir.chdir(@old_pwd)
-  end
+  setup_sandbox_app!
 
   it "can bundle files included with the file extension" do
     config = AssetTrip::Config.new do

@@ -7,9 +7,9 @@ module AssetTrip
   class UrlRewriter
     include ActionView::Helpers::AssetTagHelper
 
-    def initialize(scheme, path = nil)
+    def initialize(scheme, stylesheet_path = nil)
       @scheme = scheme
-      @path = path
+      @stylesheet_path = stylesheet_path
 
       # Used by Rails compute_asset_host method from ActionView::Helpers::AssetTagHelper
       @controller = OpenStruct.new(:request => ActionController::Request.new({}))
@@ -27,7 +27,7 @@ module AssetTrip
       strip_quotes!(path)
 
       if prepend_asset_host?(path)
-        path = rewrite_relative_path(path) unless @path.blank?
+        path = rewrite_relative_path(path) unless @stylesheet_path.blank?
         URI::Generic.build(uri_components(path)).to_s
       else
         path
@@ -53,7 +53,7 @@ module AssetTrip
       if relative_url.starts_with?("/")
         return relative_url
       else
-        Pathname.new(File.join(@path.dirname, relative_url)).cleanpath
+        Pathname.new(File.join(@stylesheet_path.dirname, relative_url)).cleanpath
       end
     end
 

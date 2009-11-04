@@ -2,15 +2,7 @@ require "spec_helper"
 require "action_controller"
 
 describe "rake asset_trip:bundle" do
-  before do
-    reset_filesystem!
-    @old_pwd = Dir.pwd
-    Dir.chdir(fixture_app)
-  end
-
-  after do
-    Dir.chdir(@old_pwd)
-  end
+  setup_sandbox_app!(:each)
 
   context "(disabling the YUI Compressor for speed)" do
     before do

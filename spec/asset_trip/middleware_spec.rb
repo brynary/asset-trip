@@ -4,15 +4,7 @@ require "rack/test"
 describe AssetTrip::Middleware do
   include Rack::Test::Methods
 
-  before(:all) do
-    reset_filesystem!
-    @old_pwd = Dir.pwd
-    Dir.chdir(fixture_app)
-  end
-
-  after(:all) do
-    Dir.chdir(@old_pwd)
-  end
+  setup_sandbox_app!
 
   def app
     AssetTrip::Middleware.new(lambda {
