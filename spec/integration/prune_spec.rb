@@ -7,12 +7,6 @@ describe "rake asset_trip:prune" do
     AssetTrip::Compressor.stub!(:new => DummyCompressor.new)
   end
 
-  it "raises an error if there is no Manifest" do
-    lambda {
-      AssetTrip.prune!
-    }.should raise_error("No Manifest found")
-  end
-
   it "removes assets not in the current Manifest" do
     install_js_config <<-CONFIG
       js_asset "signup" do

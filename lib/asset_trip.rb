@@ -22,6 +22,9 @@ module AssetTrip
   class UnknownAssetError < StandardError
   end
 
+  class NoManifestError < StandardError
+  end
+
   mattr_accessor :bundle
   self.bundle = true
 
@@ -30,7 +33,6 @@ module AssetTrip
   end
 
   def self.prune!
-    raise "No Manifest found" unless manifest
     manifest.prune!
   end
 
@@ -39,6 +41,7 @@ module AssetTrip
   end
 
   def self.manifest
+    raise NoManifestError if @manifest.nil?
     @manifest
   end
 
