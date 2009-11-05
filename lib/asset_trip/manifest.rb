@@ -23,7 +23,7 @@ module AssetTrip
     end
 
     def prune!
-      AssetTrip.assets_path.glob("**", "*.*").each do |file|
+      Pathname.glob(AssetTrip.assets_path.join("**", "*.*")).each do |file|
         part2 = file.dirname.split.last.to_s
         part1 = file.dirname.split.first.split.last.to_s
 
