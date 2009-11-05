@@ -21,6 +21,16 @@ module AssetTrip
         end
       end
 
+      def create_asset(path, opts = {})
+        fake_asset = assets_path + path
+        FileUtils.mkdir_p(fake_asset.dirname)
+        FileUtils.touch fake_asset
+        if opts[:mtime]
+          fake_asset.utime(opts[:mtime], opts[:mtime])
+        end
+        fake_asset
+      end
+
     end
   end
 end

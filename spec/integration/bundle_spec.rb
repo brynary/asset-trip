@@ -128,7 +128,7 @@ describe "rake asset_trip:bundle" do
       asset("signup.ssl.css").should have_contents('url(https://cdn1.example.com/foo.jpg)')
     end
     
-    it "respects the asset proc" do
+    it "respects ssl? method of request in asset proc" do
       asset_proc = Proc.new { |source, request|
         if request.ssl?
           "https://assets.example.com"
@@ -150,7 +150,45 @@ describe "rake asset_trip:bundle" do
 
       asset("signup.ssl.css").should have_contents('url(https://assets.example.com/foo.jpg)')
     end
+  
+    it "does not write a new bundle if the package has not expired" do
+
+      install_js_config <<-CONFIG
+        js_asset "signup" do
+          include "main.js"
+        end
+      CONFIG
+      AssetTrip.bundle!
+      
+      asset_mtime = 5.minutes.ago
+      source_mtime = 10.minutes.ago
+      asset("signup.js").utime(asset_mtime, asset_mtime)
+      app_javascript("main.js").utime(source_mtime, source_mtime)
+
+      AssetTrip.bundle!
+      asset("signup.js").mtime.to_i.should == asset_mtime.to_i
+    end
     
+    it "should use the most recent package to detect mtimes for expiry" do
+      install_js_config <<-CONFIG
+        js_asset "signup" do
+          include "main.js"
+        end
+      CONFIG
+      AssetTrip.bundle!
+      
+      asset_mtime = 5.minutes.ago
+      source_mtime = 10.minutes.ago
+      oldest_asset_mtime = 15.minutes.ago
+      
+      asset("signup.js").utime(asset_mtime, asset_mtime)
+      app_javascript("main.js").utime(source_mtime, source_mtime)
+      create_asset("46/123431bdc/signup.js", :mtime => oldest_asset_mtime)
+      
+      AssetTrip.bundle!
+      assets("signup.js").map { |asset| asset.mtime.to_i }.sort.should == [oldest_asset_mtime.to_i, asset_mtime.to_i]
+    end
+
   end
 
   it "minifies JavaScript using the YUI Compressor" do

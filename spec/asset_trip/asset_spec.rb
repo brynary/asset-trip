@@ -21,19 +21,6 @@ describe AssetTrip::Asset do
       asset = AssetTrip::Javascript.new(stub(:resolve_file => "foo.js"), "asset", [Pathname.new("foo.js")])
       asset.bundle!
     end
-
-    context "when the bundle is not expired" do
-      it "does not write to the file" do
-        pending
-        AssetTrip::FileWriter.should_not_receive(:new)
-        asset = AssetTrip::Javascript.new(stub(:resolve_file => "foo.js"), "asset", [Pathname.new("foo.js")])
-        asset.bundle!
-      end
-    end
-
-    context "when the FORCE env variable is set" do
-      it "does not check any file mtimes"
-    end
   end
 
   describe "#md5sum" do

@@ -25,7 +25,7 @@ module AssetTrip
     end
 
     def bundle!
-      if ENV["FORCE"] || expired?
+      if expired?
         FileWriter.new(path).write!(contents)
       else
         last_package = packaged_files.sort_by { |path| File.mtime(path) }.last
