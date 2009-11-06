@@ -34,7 +34,7 @@ module AssetTrip
       if expired?
         Digest::MD5.hexdigest(contents)
       else
-        last_package.dirname.to_s.last(12).gsub("/", "")
+        File.dirname(last_package).to_s.last(12).gsub("/", "")
       end
     end
     memoize :md5sum
