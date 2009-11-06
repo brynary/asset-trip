@@ -2,6 +2,13 @@ module AssetTrip
   module Spec
     module Helpers
 
+      def with_env(key, value)
+        old, ENV[key] = ENV[key], value
+        yield
+      ensure
+        old ? ENV[key] = old : ENV.delete(key)
+      end
+
       def install_config(config_source, filename = "assets.rb")
         FileUtils.mkdir_p(fixture_app)
         File.open(fixture_app("config", "asset_trip", filename), 'w') do |f|

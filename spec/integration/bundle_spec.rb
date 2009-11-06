@@ -152,59 +152,59 @@ describe "rake asset_trip:bundle" do
     end
 
     it "does not write a new bundle if the package has not expired" do
-      install_config <<-CONFIG
-        js_asset "signup" do
-          include "main.js"
-        end
-      CONFIG
-      AssetTrip.bundle!
+      Time.freeze do
+        install_config <<-CONFIG
+          js_asset "signup" do
+            include "main.js"
+          end
+        CONFIG
+        AssetTrip.bundle!
 
-      asset_mtime = 5.minutes.ago
-      source_mtime = 10.minutes.ago
-      asset("signup.js").utime(asset_mtime, asset_mtime)
-      app_javascript("main.js").utime(source_mtime, source_mtime)
+        asset("signup.js").utime(5.minutes.ago, 5.minutes.ago)
+        app_javascript("main.js").utime(10.minutes.ago, 10.minutes.ago)
 
-      AssetTrip.bundle!
-      asset("signup.js").mtime.to_i.should == asset_mtime.to_i
+        AssetTrip.bundle!
+        asset("signup.js").mtime.to_i.should == 5.minutes.ago.to_i
+      end
     end
-    
+
     it "writes a new bundle when forced even when the package is not expired" do
-      install_config <<-CONFIG
-        js_asset "signup" do
-          include "main.js"
+      Time.freeze do
+        install_config <<-CONFIG
+          js_asset "signup" do
+            include "main.js"
+          end
+        CONFIG
+        AssetTrip.bundle!
+
+        asset("signup.js").utime(5.minutes.ago, 5.minutes.ago)
+        app_javascript("main.js").utime(10.minutes.ago, 10.minutes.ago)
+
+        with_env("FORCE", "1") do
+          AssetTrip.bundle!
         end
-      CONFIG
-      AssetTrip.bundle!
-
-      asset_mtime = 5.minutes.ago
-      source_mtime = 10.minutes.ago
-      asset("signup.js").utime(asset_mtime, asset_mtime)
-      app_javascript("main.js").utime(source_mtime, source_mtime)
-
-      ENV["FORCE"] = "1"
-      AssetTrip.bundle!
-      ENV.delete("FORCE")
-      asset("signup.js").mtime.to_i.should > asset_mtime.to_i
+        asset("signup.js").mtime.to_i.should > 5.minutes.ago.to_i
+      end
     end
 
     it "should use the most recent package to detect mtimes for expiry" do
-      install_config <<-CONFIG
-        js_asset "signup" do
-          include "main.js"
-        end
-      CONFIG
-      AssetTrip.bundle!
+      Time.freeze do
+        install_config <<-CONFIG
+          js_asset "signup" do
+            include "main.js"
+          end
+        CONFIG
+        AssetTrip.bundle!
 
-      asset_mtime = 5.minutes.ago
-      source_mtime = 10.minutes.ago
-      oldest_asset_mtime = 15.minutes.ago
+        asset("signup.js").utime(5.minutes.ago, 5.minutes.ago)
+        app_javascript("main.js").utime(10.minutes.ago, 10.minutes.ago)
+        create_asset("46/123431bdc/signup.js", :mtime => 15.minutes.ago)
 
-      asset("signup.js").utime(asset_mtime, asset_mtime)
-      app_javascript("main.js").utime(source_mtime, source_mtime)
-      create_asset("46/123431bdc/signup.js", :mtime => oldest_asset_mtime)
-
-      AssetTrip.bundle!
-      assets("signup.js").map { |asset| asset.mtime.to_i }.sort.should == [oldest_asset_mtime.to_i, asset_mtime.to_i]
+        AssetTrip.bundle!
+        assets("signup.js").map { |asset|
+          asset.mtime.to_i
+        }.sort.should == [15.minutes.ago.to_i, 5.minutes.ago.to_i]
+      end
     end
   end
 
