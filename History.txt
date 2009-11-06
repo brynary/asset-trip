@@ -1,5 +1,9 @@
 == Git
 
+* 1 minor enhancement
+
+  * Allow ENV["FORCE"] to override mtime checking
+
 * 1 bug fix
 
   * Correctly rewrite relative paths in SSL stylesheets
