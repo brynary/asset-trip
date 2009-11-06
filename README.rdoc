@@ -4,6 +4,8 @@ Asset Trip bundles JavaScript and CSS files at deploy time. The assets are
 then served from a Git-esque object store in the application's public
 directory.
 
+Development of Asset Trip was kindly sponsored by Weplay[http://www.weplay.com]
+
 == Features and Benefits
 
 * Reliable cache busting strategy, even during graceful deploys
