@@ -25,8 +25,8 @@ module AssetTrip
       public_path = AssetTrip.app_root.join("public")
 
       if filesystem_path.to_s.starts_with?(public_path)
-        foo = Pathname.new("/").join(filesystem_path.relative_path_from(public_path))
-        UrlRewriter.new("http", foo)
+        public_path = Pathname.new("/").join(filesystem_path.relative_path_from(public_path))
+        UrlRewriter.new("http", public_path)
       else
         UrlRewriter.new("http")
       end
