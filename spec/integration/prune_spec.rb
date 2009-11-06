@@ -8,7 +8,7 @@ describe "rake asset_trip:prune" do
   end
 
   it "removes assets not in the current Manifest" do
-    install_js_config <<-CONFIG
+    install_config <<-CONFIG
       js_asset "signup" do
         include "main.js"
       end
@@ -23,7 +23,7 @@ describe "rake asset_trip:prune" do
   end
 
   it "does not remove assets in the current Manifest" do
-    install_js_config <<-CONFIG
+    install_config <<-CONFIG
       js_asset "signup" do
         include "main.js"
       end
@@ -35,7 +35,7 @@ describe "rake asset_trip:prune" do
   end
 
   it "removes unknown files" do
-    install_js_config <<-CONFIG
+    install_config <<-CONFIG
       js_asset "signup" do
         include "main.js"
       end

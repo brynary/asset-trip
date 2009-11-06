@@ -10,7 +10,7 @@ describe "rake asset_trip:bundle" do
     end
 
     it "stores each Asset into the public directory" do
-      install_js_config <<-CONFIG
+      install_config <<-CONFIG
         js_asset "signup" do
         end
       CONFIG
@@ -19,10 +19,10 @@ describe "rake asset_trip:bundle" do
     end
 
     it "supports loading additional config files" do
-      install_js_config(<<-CONFIG, "assets.rb")
+      install_config(<<-CONFIG, "assets.rb")
         load "config/asset_trip/more_assets"
       CONFIG
-      install_js_config(<<-CONFIG, "more_assets.rb")
+      install_config(<<-CONFIG, "more_assets.rb")
         js_asset "signup" do
         end
       CONFIG
@@ -31,7 +31,7 @@ describe "rake asset_trip:bundle" do
     end
 
     it "concatenates the files into an Asset" do
-      install_js_config <<-CONFIG
+      install_config <<-CONFIG
         js_asset "signup" do
           include "main"
           include "signup"
@@ -43,7 +43,7 @@ describe "rake asset_trip:bundle" do
     end
 
     it "uses the same path if the Asset content is the same" do
-      install_js_config <<-CONFIG
+      install_config <<-CONFIG
         js_asset "signup" do
           include "main.js"
         end
@@ -54,7 +54,7 @@ describe "rake asset_trip:bundle" do
     end
 
     it "uses a different path if the Asset content is different" do
-      install_js_config <<-CONFIG
+      install_config <<-CONFIG
         js_asset "signup" do
           include "main.js"
         end
@@ -67,7 +67,7 @@ describe "rake asset_trip:bundle" do
     end
 
     it "generates paths in the form of assets/XX/YYYYYYYY/filename.js" do
-      install_js_config <<-CONFIG
+      install_config <<-CONFIG
         js_asset "signup" do
           include "main.js"
         end
@@ -79,7 +79,7 @@ describe "rake asset_trip:bundle" do
     end
 
     it "generates a manifest for use at runtime" do
-      install_js_config <<-CONFIG
+      install_config <<-CONFIG
         js_asset "signup" do
           include "main.js"
         end
@@ -97,7 +97,7 @@ describe "rake asset_trip:bundle" do
     it "rewrites URLs in CSS files to include the asset host" do
       ActionController::Base.stub!(:asset_host => "http://cdn%d.example.com")
 
-      install_js_config <<-CONFIG
+      install_config <<-CONFIG
         css_asset "signup" do
           include "new"
         end
@@ -114,7 +114,7 @@ describe "rake asset_trip:bundle" do
     it "rewrites URLs in CSS files to include HTTPs asset hosts" do
       ActionController::Base.stub!(:asset_host => "http://cdn%d.example.com")
 
-      install_js_config <<-CONFIG
+      install_config <<-CONFIG
         css_asset "signup" do
           include "new"
         end
@@ -137,7 +137,7 @@ describe "rake asset_trip:bundle" do
         end
       }
       ActionController::Base.stub!(:asset_host => asset_proc)
-      install_js_config <<-CONFIG
+      install_config <<-CONFIG
         css_asset "signup" do
           include "new"
         end
@@ -152,7 +152,7 @@ describe "rake asset_trip:bundle" do
     end
 
     it "does not write a new bundle if the package has not expired" do
-      install_js_config <<-CONFIG
+      install_config <<-CONFIG
         js_asset "signup" do
           include "main.js"
         end
@@ -169,7 +169,7 @@ describe "rake asset_trip:bundle" do
     end
 
     it "should use the most recent package to detect mtimes for expiry" do
-      install_js_config <<-CONFIG
+      install_config <<-CONFIG
         js_asset "signup" do
           include "main.js"
         end
@@ -190,7 +190,7 @@ describe "rake asset_trip:bundle" do
   end
 
   it "minifies JavaScript using the YUI Compressor" do
-    install_js_config <<-CONFIG
+    install_config <<-CONFIG
       js_asset "signup" do
         include "main"
       end
@@ -210,7 +210,7 @@ describe "rake asset_trip:bundle" do
   end
 
   it "minifies CSS using the YUI Compressor" do
-    install_js_config <<-CONFIG
+    install_config <<-CONFIG
       css_asset "signup" do
         include "new"
       end
@@ -229,7 +229,7 @@ describe "rake asset_trip:bundle" do
   end
 
   it "raises a CompressorError if compression fails" do
-    install_js_config <<-CONFIG
+    install_config <<-CONFIG
       js_asset "signup" do
         include "main"
       end

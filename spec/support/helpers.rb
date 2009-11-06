@@ -2,7 +2,7 @@ module AssetTrip
   module Spec
     module Helpers
 
-      def install_js_config(config_source, filename = "assets.rb")
+      def install_config(config_source, filename = "assets.rb")
         FileUtils.mkdir_p(fixture_app)
         File.open(fixture_app("config", "asset_trip", filename), 'w') do |f|
           f.puts config_source
@@ -22,13 +22,10 @@ module AssetTrip
       end
 
       def create_asset(path, opts = {})
-        fake_asset = assets_path + path
+        fake_asset = assets_path.join(path)
         FileUtils.mkdir_p(fake_asset.dirname)
-        FileUtils.touch fake_asset
-        if opts[:mtime]
-          fake_asset.utime(opts[:mtime], opts[:mtime])
-        end
-        fake_asset
+        FileUtils.touch(fake_asset)
+        fake_asset.utime(opts[:mtime], opts[:mtime]) if opts[:mtime]
       end
 
     end
