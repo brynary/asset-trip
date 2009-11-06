@@ -26,14 +26,18 @@ module AssetTrip
 
       if filesystem_path.to_s.starts_with?(public_path)
         public_path = Pathname.new("/").join(filesystem_path.relative_path_from(public_path))
-        UrlRewriter.new("http", public_path)
+        UrlRewriter.new(url_scheme, public_path)
       else
-        UrlRewriter.new("http")
+        UrlRewriter.new(url_scheme)
       end
     end
 
     def asset_type
       :stylesheets
+    end
+
+    def url_scheme
+      "http"
     end
 
     def extension
