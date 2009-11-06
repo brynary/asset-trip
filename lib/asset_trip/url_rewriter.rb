@@ -25,7 +25,7 @@ module AssetTrip
     def setup_fake_controller_for_asset_host_computation
       environment = {}
       environment["HTTPS"] = "on" if @scheme == "https"
-      @controller = OpenStruct.new(:request => ActionController::Request.new(environment)) # Used by Rails compute_asset_host method from ActionView::Helpers::AssetTagHelper      
+      @controller = OpenStruct.new(:request => ActionController::Request.new(environment)) # Used by Rails compute_asset_host method from ActionView::Helpers::AssetTagHelper
     end
 
     def add_asset_host_to_path(path)
