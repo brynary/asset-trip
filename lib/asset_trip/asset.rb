@@ -14,27 +14,30 @@ module AssetTrip
       instance_eval(&block) if block_given?
     end
 
+    def bundle!
+      FileWriter.new(path).write!(contents) if expired?
+    end
+
     def contents
       compressor.compress(joined_contents)
     end
+    memoize :contents
 
     def paths
       files.map do |file|
         @config.resolve_file(asset_type, file)
       end
     end
-
-    def bundle!
-      if expired?
-        FileWriter.new(path).write!(contents)
-      else
-        @md5sum = File.dirname(last_package).last(12).gsub("/", "")
-      end
-    end
+    memoize :paths
 
     def md5sum
-      @md5sum ||= Digest::MD5.hexdigest(contents)
+      if expired?
+        Digest::MD5.hexdigest(contents)
+      else
+        last_package.dirname.to_s.last(12).gsub("/", "")
+      end
     end
+    memoize :md5sum
 
   private
 
@@ -43,7 +46,7 @@ module AssetTrip
     end
 
     def expired?
-      packaged_files.empty? || generated_at <= last_change_at
+      ENV["FORCE"] || packaged_files.empty? || generated_at <= last_change_at
     end
 
     def generated_at

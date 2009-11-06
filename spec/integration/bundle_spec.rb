@@ -167,6 +167,25 @@ describe "rake asset_trip:bundle" do
       AssetTrip.bundle!
       asset("signup.js").mtime.to_i.should == asset_mtime.to_i
     end
+    
+    it "writes a new bundle when forced even when the package is not expired" do
+      install_config <<-CONFIG
+        js_asset "signup" do
+          include "main.js"
+        end
+      CONFIG
+      AssetTrip.bundle!
+
+      asset_mtime = 5.minutes.ago
+      source_mtime = 10.minutes.ago
+      asset("signup.js").utime(asset_mtime, asset_mtime)
+      app_javascript("main.js").utime(source_mtime, source_mtime)
+
+      ENV["FORCE"] = "1"
+      AssetTrip.bundle!
+      ENV.delete("FORCE")
+      asset("signup.js").mtime.to_i.should > asset_mtime.to_i
+    end
 
     it "should use the most recent package to detect mtimes for expiry" do
       install_config <<-CONFIG
