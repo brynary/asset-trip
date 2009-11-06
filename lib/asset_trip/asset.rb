@@ -28,8 +28,7 @@ module AssetTrip
       if expired?
         FileWriter.new(path).write!(contents)
       else
-        last_package = packaged_files.sort_by { |path| File.mtime(path) }.last
-        @md5sum = File.dirname(last_package).last(12).gsub(/\//, '')
+        @md5sum = File.dirname(last_package).last(12).gsub("/", "")
       end
     end
 
@@ -38,6 +37,10 @@ module AssetTrip
     end
 
   private
+
+    def last_package
+      packaged_files.sort_by { |path| File.mtime(path) }.last
+    end
 
     def expired?
       packaged_files.empty? || generated_at <= last_change_at
