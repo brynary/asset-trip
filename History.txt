@@ -1,3 +1,9 @@
+== Git
+
+* 1 bug fix
+
+  * Correctly rewrite relative paths in SSL stylesheets
+
 == 0.1.0 / 2009-11-05
 
 * 1 major enhancement
