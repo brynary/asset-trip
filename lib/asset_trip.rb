@@ -25,7 +25,7 @@ module AssetTrip
   class NoManifestError < StandardError
   end
 
-  VERSION = "0.1.0.pre"
+  VERSION = "0.1.0"
 
   mattr_accessor :bundle
   self.bundle = true

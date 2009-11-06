@@ -11,9 +11,11 @@ module GemHelpers
       s.email     = "bryan@brynary.com"
       s.homepage  = "http://github.com/brynary/asset-trip"
       s.summary   = "Rails asset bundling plugin that will expand your mind"
-      # s.description  = <<-EOS.strip
-      #   TODO
-      # EOS
+      s.description  = <<-EOS.strip
+Asset Trip bundles JavaScript and CSS files at deploy time. The assets are
+then served from a Git-esque object store in the application's public
+directory.
+      EOS
 
       require "git"
       repo = Git.open(".")
@@ -22,7 +24,7 @@ module GemHelpers
       s.test_files = normalize_files(Dir['spec/**/*.rb'] - repo.lib.ignored_files)
 
       s.has_rdoc = true
-      s.extra_rdoc_files = %w[README.rdoc MIT-LICENSE.txt]
+      s.extra_rdoc_files = %w[History.txt README.rdoc MIT-LICENSE.txt]
     end
   end
 

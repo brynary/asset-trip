@@ -2,20 +2,28 @@
 
 Gem::Specification.new do |s|
   s.name = %q{asset-trip}
-  s.version = "0.1.0.pre"
+  s.version = "0.1.0"
 
-  s.required_rubygems_version = Gem::Requirement.new("> 1.3.1") if s.respond_to? :required_rubygems_version=
+  s.required_rubygems_version = Gem::Requirement.new(">= 0") if s.respond_to? :required_rubygems_version=
   s.authors = ["Bryan Helmkamp"]
   s.date = %q{2009-11-05}
+  s.description = %q{Asset Trip bundles JavaScript and CSS files at deploy time. The assets are
+then served from a Git-esque object store in the application's public
+directory.}
   s.email = %q{bryan@brynary.com}
   s.extra_rdoc_files = [
+    "History.txt",
     "README.rdoc",
     "MIT-LICENSE.txt"
   ]
   s.files = [
     ".gitignore",
+    "History.txt",
+    "MIT-LICENSE.txt",
     "README.rdoc",
     "Rakefile",
+    "Thorfile",
+    "asset-trip.gemspec",
     "init.rb",
     "lib/asset_trip.rb",
     "lib/asset_trip/asset.rb",
@@ -58,8 +66,7 @@ Gem::Specification.new do |s|
     "spec/support/path_utils.rb",
     "spec/support/sandbox_helper.rb",
     "tasks/asset_trip.rake",
-    "vendor/yuicompressor-2.4.2.jar",
-    "MIT-LICENSE.txt"
+    "vendor/yuicompressor-2.4.2.jar"
   ]
   s.homepage = %q{http://github.com/brynary/asset-trip}
   s.require_paths = ["lib"]
