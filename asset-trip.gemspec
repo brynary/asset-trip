@@ -2,11 +2,11 @@
 
 Gem::Specification.new do |s|
   s.name = %q{asset-trip}
-  s.version = "0.1.0"
+  s.version = "0.1.1"
 
   s.required_rubygems_version = Gem::Requirement.new(">= 0") if s.respond_to? :required_rubygems_version=
   s.authors = ["Bryan Helmkamp"]
-  s.date = %q{2009-11-05}
+  s.date = %q{2009-11-09}
   s.description = %q{Asset Trip bundles JavaScript and CSS files at deploy time. The assets are
 then served from a Git-esque object store in the application's public
 directory.}
@@ -48,6 +48,7 @@ directory.}
     "spec/asset_trip/load_path_spec.rb",
     "spec/asset_trip/manifest_writer_spec.rb",
     "spec/asset_trip/middleware_spec.rb",
+    "spec/asset_trip/ssl_stylesheet_spec.rb",
     "spec/asset_trip/stylesheet_spec.rb",
     "spec/asset_trip/url_rewriter_spec.rb",
     "spec/asset_trip_spec.rb",
@@ -81,6 +82,7 @@ directory.}
     "spec/asset_trip/load_path_spec.rb",
     "spec/asset_trip/manifest_writer_spec.rb",
     "spec/asset_trip/middleware_spec.rb",
+    "spec/asset_trip/ssl_stylesheet_spec.rb",
     "spec/asset_trip/stylesheet_spec.rb",
     "spec/asset_trip/url_rewriter_spec.rb",
     "spec/asset_trip_spec.rb",
