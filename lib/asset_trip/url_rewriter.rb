@@ -33,7 +33,7 @@ module AssetTrip
 
       if prepend_asset_host?(path)
         path = rewrite_relative_path(path) unless @stylesheet_path.blank?
-        URI::Generic.build(uri_components(path)).to_s
+        URI::Generic.build(uri_components(path.to_s)).to_s
       else
         path
       end

@@ -162,5 +162,16 @@ describe AssetTrip::UrlRewriter do
 
     it_rewrites_urls("/stylesheets/default/main.css",
       "/images/image.gif" => "/images/image.gif")
+      
+    it "does not append a trailing slash to relative paths when mtimes are appended" do
+      rewriter = AssetTrip::UrlRewriter.new("http", Pathname.new("/stylesheets/main.css"))
+      rewriter.stub!(:rails_asset_id => "234523433")
+      output = rewriter.rewrite <<-CSS
+        .foo { background: url(image.gif) }
+      CSS
+
+      output.should include("url(/stylesheets/image.gif?234523433)")
+    end  
+      
   end
 end
