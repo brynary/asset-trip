@@ -12,6 +12,7 @@ describe "rake asset_trip:bundle" do
     it "stores each Asset into the public directory" do
       install_config <<-CONFIG
         js_asset "signup" do
+          include "main"
         end
       CONFIG
       AssetTrip.bundle!
@@ -24,6 +25,7 @@ describe "rake asset_trip:bundle" do
       CONFIG
       install_config(<<-CONFIG, "more_assets.rb")
         js_asset "signup" do
+          include "main"
         end
       CONFIG
       AssetTrip.bundle!

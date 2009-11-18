@@ -26,6 +26,13 @@ describe AssetTrip::Config do
     asset_config.paths.should == [app_javascript("main", "new.js")]
   end
 
+  it "should not allow empty asset trip configurations" do
+    lambda { AssetTrip::Config.new do
+      js_asset "signup" do
+      end
+    end }.should raise_error(AssetTrip::InvalidAssetError, "javascript asset 'signup' does not contain any files")
+  end
+
   it "supports writing an asset to a subdirectory" do
     config = AssetTrip::Config.new do
       js_asset "signup/foo" do

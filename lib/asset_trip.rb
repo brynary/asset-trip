@@ -24,6 +24,9 @@ module AssetTrip
 
   class NoManifestError < StandardError
   end
+  
+  class InvalidAssetError < StandardError
+  end
 
   VERSION = "0.1.1"
 

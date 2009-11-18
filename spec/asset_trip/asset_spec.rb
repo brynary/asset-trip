@@ -8,9 +8,9 @@ describe AssetTrip::Asset do
 
   describe "#bundle!" do
     it "splits the MD5 into two nested directories" do
-      path = AssetTrip.assets_path.join("d4", "1d8cd98f0", "asset.js")
+      path = AssetTrip.assets_path.join("98", "bf7d8c157", "asset.js")
       AssetTrip::FileWriter.should_receive(:new).with(path).and_return(stub(:write! => nil))
-      asset = AssetTrip::Javascript.new(stub, "asset")
+      asset = AssetTrip::Javascript.new(stub(:resolve_file => "foo.js"), "asset", [Pathname.new('foo.js')])
       asset.bundle!
     end
 
@@ -24,11 +24,6 @@ describe AssetTrip::Asset do
   end
 
   describe "#md5sum" do
-    it "calculates the MD5 if there are no files" do
-      asset = AssetTrip::Javascript.new(stub, "asset")
-      asset.md5sum.should == "d41d8cd98f00b204e9800998ecf8427e"
-    end
-
     it "calculates the MD5 for one file" do
       asset = AssetTrip::Javascript.new(stub(:resolve_file => "foo"), "asset") do
         include "foo"

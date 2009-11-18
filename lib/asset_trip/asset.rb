@@ -12,6 +12,7 @@ module AssetTrip
       @files = files
 
       instance_eval(&block) if block_given?
+      raise AssetTrip::InvalidAssetError, "#{asset_type.to_s.singularize} asset '#{name}' does not contain any files" if @files.empty?
     end
 
     def bundle!

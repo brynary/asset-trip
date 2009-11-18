@@ -44,12 +44,12 @@ describe "an Asset that compresses", :shared => true do
 
   it "compresses the contents" do
     AssetTrip::Compressor.should_receive(:new).with("css")
-    described_class.new(stub, "all.css").contents.should == "compressed"
+    described_class.new(stub(:resolve_file => "foo.css"), "all.css", [Pathname.new('foo.css')]).contents.should == "compressed"
   end
 
   it "only runs the Compressor once for the package" do
     compressor.should_receive(:compress).exactly(:once)
-    described_class.new(stub, "all.css").contents.should == "compressed"
+    described_class.new(stub(:resolve_file => "foo.css"), "all.css", [Pathname.new('foo.css')]).contents.should == "compressed"
   end
 end
 

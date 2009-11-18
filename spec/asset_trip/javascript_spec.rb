@@ -11,13 +11,13 @@ describe AssetTrip::Javascript do
 
     it "compresses the contents" do
       AssetTrip::Compressor.should_receive(:new).with("js")
-      asset = AssetTrip::Javascript.new(stub(), "all.css")
+      asset = AssetTrip::Javascript.new(stub(:resolve_file => "foo.js"), "all.css", [Pathname.new('foo.js')])
       asset.contents.should == "compressed"
     end
 
     it "only runs the Compressor once for the package" do
       compressor.should_receive(:compress).exactly(:once)
-      asset = AssetTrip::Javascript.new(stub(), "all.css")
+      asset = AssetTrip::Javascript.new(stub(:resolve_file => "foo.js"), "all.css", [Pathname.new('foo.js')])
       asset.contents.should == "compressed"
     end
   end
