@@ -47,6 +47,7 @@ module AssetTrip
       end
 
       if (host = compute_asset_host(path)).present?
+        opts[:port]   = strip_port(host)
         opts[:host]   = strip_scheme(host)
         opts[:scheme] = @scheme
       end
@@ -69,6 +70,15 @@ module AssetTrip
       File.extname(uri.path) != '.htc'
     end
 
+    def strip_port(host)
+      port = nil
+      host.gsub!(/:(\d+)/) do
+        port = $1
+        ''
+      end
+      port
+    end
+    
     def strip_scheme(host)
       host.gsub(/^[a-z]+:\/\//, '')
     end

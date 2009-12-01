@@ -135,6 +135,16 @@ describe AssetTrip::UrlRewriter do
       output.should include('url(/foo.jpg)')
     end
 
+    it "works when a port is part of the asset host" do
+      ActionController::Base.stub!(:asset_host => "http://cdn.example.com:3000")
+
+      output = AssetTrip::UrlRewriter.new("http").rewrite <<-CSS
+        .foo { background: url(/foo.jpg) }
+      CSS
+
+      output.should include('url(http://cdn.example.com:3000/foo.jpg)')
+    end
+
     it "includes the file mtime for background images in the query string" do
       rewriter = AssetTrip::UrlRewriter.new("http")
       rewriter.stub!(:rails_asset_id => "123123123")
